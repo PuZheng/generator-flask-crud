@@ -60,6 +60,7 @@ MIT
 
 * default value from model definition
 * default doc from model definition 
+* online validation according to model definition
 
 ## Why?
 
