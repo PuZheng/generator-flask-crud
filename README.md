@@ -48,16 +48,18 @@ MIT
 
 ## Features included
 
-### keyword search in list, auto-complete is possible
+* keyword search in list, auto-complete is possible
 
-### multiple filters are possible
+* multiple filters are possible
 
-### mobile friendly
+* mobile friendly
 
-### sort by columns
+* sort by columns
 
-### operation logs
+* operation logs
 
+* default value from model definition
+* default doc from model definition 
 
 ## Why?
 
