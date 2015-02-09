@@ -49,15 +49,10 @@ MIT
 ## Features included
 
 * keyword search in list, auto-complete is possible
-
 * multiple filters are possible
-
 * mobile friendly
-
 * sort by columns
-
 * operation logs
-
 * default value from model definition
 * default doc from model definition 
 * online validation according to model definition
