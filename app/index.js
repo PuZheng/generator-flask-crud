@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var lodash = require('lodash');
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
@@ -17,29 +18,36 @@ module.exports = yeoman.generators.Base.extend({
     ));
 
     var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
+        type: 'input',
+        name: 'packageName',
+        message: 'your package name',
+    }, {
+        type: 'input',
+        name: 'modelsModule',
+        message: 'the module that define all the database models'
+    }, {
+        type: 'confirm',
+        name: 'searchable',
+        message: 'if the model could be searched',
+        default: true,
+    }, {
+        type: 'list',
+        name: 'searchableFields',
+        message: 'searchable fields',
+        default: ['name'],
     }];
 
     this.prompt(prompts, function (props) {
-      this.someOption = props.someOption;
-
-      done();
+        this.packageName = props.packageName;
+        this.modelsModule = props.modelsModule; 
+        this.searchable = props.searchable;
+        this.searchableFields = props.searchableFields;
+        done();
     }.bind(this));
   },
 
   writing: {
     app: function () {
-      this.fs.copy(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json')
-      );
-      this.fs.copy(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json')
-      );
     },
 
     projectfiles: function () {

@@ -1,0 +1,94 @@
+{% extends "layout.html" %}
+
+{% from 'crud-macros.html' import render_pagination, td_cell, th_cell, sort_url %}
+
+{% block extra_headers %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/' + request.blueprint + '/list.css') }}">
+{% endblock %}
+
+{% block content %}
+  <div class="ui page grid">
+    <div class="row">
+      <% if (searchable) { %>
+      <div class="sixteen wide column right aligned">
+        <div class="ui right aligned search">
+          <form class="ui icon input">
+            <input class="prompt" type="text" name='kw' placeholder="{{ _('Search') }} ..." value="{{ request.args.kw }}">
+            <i class="search icon"></i>
+          </form>
+          <div class="results"></div>
+        </div>
+      </div>
+      {% } %}
+      <div class="sixteen wide column">
+        <div class="ui attached message">
+          <div class="filters ui form">
+          </div>
+          <div class="ui divider">
+          </div>
+          <div class='actions'>
+            <span class="header">
+              <span>
+                <a href="{{ url_for('.object_view', next=request.url) }}">
+                  <div class="ui animated positive fade button">
+                    <div class="hidden content">
+                      新建
+                    </div>
+                    <div class="visible content">
+                      <i class="icon plus"></i>
+                    </div>
+                  </div>
+                </a>
+                <button class="ui animated negative fade remove button">
+                  <div class="hidden content">
+                    删除
+                  </div>
+                  <div class="visible content">
+                    <i class="icon remove"></i>
+                  </div>
+                </button>
+              </span>
+            </span>
+          </div>
+        </div>
+        <table class="table ui attached segment">
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox">
+              </th>
+              {% for col in mapper.columns %}
+                {{ th_cell(col) }}
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for obj in objs %}
+              <tr>
+                <td><input type="checkbox" data-id="{{ obj.id }}"></td>
+                {% for col in mapper.columns %}
+                  {{ td_cell(col, obj) }}
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="ui inverted dimmer mask">
+          <div class="ui loader"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="center aligned column">
+        {{ render_pagination(pagination) }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% macro bust() -%}{% if config.DEBUG %}?bust={{ range(1, 999999)|random }}{% endif %}{%- endmacro %}
+
+{% block extra_tails %}
+  <script src='{{ url_for('static', filename='bower_components/requirejs/require.js') }}' data-main='{{ url_for('static', filename='js/' + request.blueprint + '/list/main.js') }}{{ bust() }}'></script>
+{% endblock %}

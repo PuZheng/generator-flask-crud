@@ -1,0 +1,86 @@
+{% macro render_pagination(pagination) -%}
+  {% set args = request.args.to_dict() %}
+  <div class="ui centered pagination menu">
+    {% do args.update(page=pagination.page - 1) %}
+    <a class="{% if not pagination.has_prev %}disabled {% endif %}icon item"
+      href="{{ url_for(request.endpoint, **args)}}" >
+      <i class="left arrow icon"></i>
+    </a>
+    {%- for page in pagination.iter_pages() %}
+      {% if page %}
+        {% if page != pagination.page %}
+          {% do args.update(page=page) %}
+          <a class="item" href="{{ url_for(request.endpoint, **args) }}">{{ page }}</a>
+        {% else %}
+          <a class='active item'>
+            {{ page }}
+          </a>
+        {% endif %}
+      {% else %}
+      <div class='disable item'>…</div>
+      {% endif %}
+    {%- endfor %}
+    {% do args.update(page=pagination.page + 1) %}
+    <a href="{{ url_for(request.endpoint, **args)}}" aria-label="Next"
+      class="{% if not pagination.has_next %}disabled{% endif %} icon item">
+      <span aria-hidden="true">&raquo;</span>
+    </a>
+  </div>
+{%- endmacro %}
+
+{% macro th_cell(col) -%}
+  <th {% if col.doc %}title="{{ col.doc }}"{% endif %}>
+    {% call sort_url(col.name) %}
+      {{ col.name }}
+      {% if request.args.order_by == col.name %}
+        {% if request.args.desc == '1' %}
+          <i class="caret up icon"></i>
+        {%else %}
+          <i class="caret down icon"></i>
+        {%endif %}
+      {% endif %}
+      {% if col.doc %}
+      <i class="info circle icon"></i>
+      {% endif %}
+    {% endcall %}
+  </th>
+{%- endmacro %}
+
+{% macro td_cell(col, obj) -%}
+<td>
+  {% if col.primary_key %}
+  <a href="{{ url_for('.object_view', id_=obj|attr(col.name), backref=request.url) }}">
+  {% endif %}
+  {{ obj|attr(col.name) or '--' }}
+  {% if col.primary_key %}
+  </a>
+  {% endif %}
+</td>
+{%- endmacro %}
+
+{% macro sort_url(col_name) -%}
+{% set args = request.args.to_dict() %}
+{% do args.update(order_by=col_name) %}
+  {% set sort_url = url_for(request.endpoint, **args) %}
+  {% if request.args.order_by == col_name and not request.args.desc %}
+  {% set sort_url = sort_url + '&desc=1'%}
+  {% endif %}
+  <a href="{{ sort_url }}"> {{ caller() }}</a>
+{%- endmacro %}
+
+
+{% macro errors(form) -%}
+<div class="ui attached error message">
+  <div class="header">
+    There was some errors with your submission
+  </div>
+  <ul class="list">
+    {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+    {% for error in field_errors %}
+    <li>{{ form[field_name].label }}: {{ error }}</li>
+    {% endfor %}
+    {% endfor %}
+  </ul>
+</div>
+{%- endmacro %}
+

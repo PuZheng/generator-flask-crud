@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block extra_headers %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/' + request.blueprint + '/object.css') }}">
+{% endblock %}
+
+{% from "crud-macros.html" import errors %}
+
+
+{% block content %}
+  <div class="ui page grid">
+    <div class="row">
+      <div class="column">
+        <div class="ui attached message">
+          <h3 class='text-muted header'>
+            {% if obj %}
+              <span>
+                {{ _('edit %(model_name)s', model_name='<%= modelName %>') }}
+              </span>
+              <span class='model-name'>
+                {{ obj }}
+              </span>
+            {% else %}
+              {{ _('create %(model_name)s', model_name='<%= modelName %>') }}
+            {% endif %}
+          </h3>
+        </div>
+        {% if form.errors %}
+          {{ errors(form) }}
+        {% endif %}
+        <form class="ui form attached fluid segment" method="POST">
+          {{ form.csrf_token }}
+
+          {% if obj %}
+            <input type="hidden" name="id" value="{{obj.id}}">
+          {% else %}
+            <input type="hidden" name="image_list">
+            <input type="hidden" name="cover_id">
+          {% endif %}
+
+          <div class="field">
+            <label for="input-foo">Foo</label>
+            <input type="text" name='foo' id="input-foo" placeholder="input name..." value="{{ form.data.name or ''}}" {% if not obj %}autofocus{% endif %}>
+          </div>
+          <div class="ui divider"></div>
+
+          {% if obj %}
+            <a class="ui red remove button" href="#">{{ _('Remove') }}</a>
+          {% else %}
+            <button type='submit' class="ui primary submit button">{{ _('Create') }}</button>
+          {% endif %}
+          <a class="ui button" href="{{ request.args.backref or url_for('spu.list_view') }}">{{ _('Back') }}</a>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% macro bust() -%}{% if config.DEBUG %}?bust={{ range(1, 999999)|random }}{% endif %}{%- endmacro %}
+{% block extra_tails %}
+  <script src="{{ url_for('static', filename='bower_components/requirejs/require.js') }}" data-main='{{ url_for('static', filename='js/' + request.blueprint + '/object/main.js') }}{{ bust() }}'></script>
+{% endblock %}
