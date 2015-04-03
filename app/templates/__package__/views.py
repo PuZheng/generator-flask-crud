@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-from flask import (flash, render_template, redirect, request,
+from flask import (Blueprint, flash, render_template, redirect, request,
                    jsonify, url_for, current_app)
 from flask.ext.login import login_required
 from flask.ext.wtf import Form
@@ -11,6 +11,9 @@ from path import path
 import yaml
 
 
+bp = Blueprint('<%= packageName %>', __name__, static_folder='static',
+               template_folder='templates')
+
 ModelForm = model_form_factory(Form)
 
 class <%= modelName %>ModelView(object):
@@ -19,10 +22,12 @@ class <%= modelName %>ModelView(object):
 
     def __init__(self, app, db, model_cls, page_size=None):
         if not self.instance:
-            self.instance = namedtuple('<%= modelName =>ModelView',
+            self.instance = namedtuple('<%= modelName %>ModelView',
                                        'app model_cls db page_size'
                                        )
             (app, model_cls, db, page_size or app.config.get('PAGE_SIZE', 16))
+
+        app.register_blueprint(bp, url_prefix='<%= packageName %>')
 
 
 
@@ -32,7 +37,7 @@ class <%= modelName %>ModelView(object):
 @dump_request(['POST'])
 def object_view(id_=None):
 
-    model_view = <%= modelName =>ModelView.instance
+    model_view = <%= modelName %>ModelView.instance
 
     obj = model_view.model_cls.query.get_or_404(id_) if id_ else None
 
@@ -62,19 +67,20 @@ def list_view():
     desc = request.args.get("desc", 0, type=int)
 
 
-    model_view = <%= modelName =>ModelView.instance
+    model_view = <%= modelName %>ModelView.instance
     q = model_view.model_cls.query
 
     <% if (searchable) { %>
     kw = request.args.get('kw')
     if kw:
         <% if (searchableFields.length > 1) { %>
-        q = q.filter(or_(*[
-            getattr(model_view.model_cls, field).like(u'%%%s%%' % kw)
-            for field in <%= searchableFields %>]))
-        <% else { %>
-        q = q.filter(getattr(model_view.model_cls,
-                             '<%= searchableFields[0] %>').like(u'%%%s%%' % kw))
+        q = q.filter(or_(
+            <%= searchableFields.map(function (field) {
+                return 'model_view.model_cls.' + field + '.like(u\'%%s%%\' % kw)';
+            }).join(', ') %>
+        ))
+        <% } else { %>
+        q = q.filter(model_view.model_cls.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))
         <% } %>
     <% } %>
 
@@ -92,10 +98,11 @@ def list_view():
                            objs=objs, mapper=model_view.model_cls.__mapper__)
 
 
+
 @bp.route('/list.json', methods=['GET', 'DELETE', 'PUT'])
 @login_required
 def list_json():
-    model_view = <%= modelName =>ModelView.instance
+    model_view = <%= modelName %>ModelView.instance
     session = model_view.db.session
     if request.method == 'DELETE':
         for id_ in request.args['ids'].split(','):
@@ -144,20 +151,21 @@ def object_json(id_):
 def search_view(kw=None):
     model_cls = model_view.model_cls
     <% if (searchableFields.length > 1) { %>
-    q = model_cls.query.filter(or_(*[
-        getattr(model_cls, field).like(u'%%%s%%' % kw)) for field in
-        <%= searchableFields %>
-    ])
-    <% else { %>
+    q = model_cls.query.filter(or_(
+        <%= searchableFields.map(function (field) {
+            return 'model_view.model_cls' + field + '.like(u\'%%s%%\' % kw)';
+        }).join(', ') %>
+    ))
+    <% } else { %>
     q = model_cls.query.filter(
-        getattr(model_cls, '<%= searchableFields[0] %>').like(u'%%%s%%' % kw))
+        model_cls.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))
     <% } %>
 
     return jsonify({
         "results": [{
             "title": entry.name,
             "url": url_for('.list_view',
-                           kw=getattr(entry, '<%= searchableFields[0] %>'),
+                           kw=entry.<%= searchableFields[0] %>),
         } for entry in q],
     })
 <% } %>
