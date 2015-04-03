@@ -2,10 +2,10 @@
     'use strict';
     // Set up Backbone appropriately for the environment. Start with AMD.
     if (typeof define === 'function' && define.amd) {
-        define(['jquery', 'semantic-ui'], function($) {
+        define(['jquery', 'toastr', 'semantic-ui'], function($, toastr) {
             // Export global even in AMD case in case this script is loaded with
             // others that may still expect a global Backbone.
-            root.foo = factory(root, $);
+            root.foo = factory(root, $, toastr);
         });
 
         // Next for Node.js or CommonJS. jQuery may not be needed as a module.
@@ -15,7 +15,7 @@
     } else {
         factory(root, (root.jQuery || root.Zepto || root.ender || root.$));
     }
-}(this, function(root, $) {
+}(this, function(root, $, toastr) {
     'use strict';
 
     var objId = $('.ui.form :hidden[name="id"]').val(); 
@@ -68,7 +68,9 @@
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
             }).done(function () {
-
+                toastr.success('updated!', '', {
+                    position: 'toast-bottom-center'
+                });
             }).fail(function () {
 
             }).always(function () {

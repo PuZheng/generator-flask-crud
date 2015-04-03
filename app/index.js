@@ -103,5 +103,6 @@ module.exports = yeoman.generators.Base.extend({
       this.log('    require(\'' + this.templateArgs.packageName + '/rendor\')(scriptsMap, shimsMap, urlRoot)');
       this.log('})');
       this.log('**************************************************************\n');
+      this.log('and install toastr(https://github.com/CodeSeven/toastr/blob/master/toastr.js)');
   }
 });
