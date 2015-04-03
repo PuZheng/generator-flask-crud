@@ -58,7 +58,7 @@ module.exports = yeoman.generators.Base.extend({
                            this.templateArgs);
         }.bind(this));
         this.fs.copyTpl(this.templatePath('render.js'),
-                       this.destinationPath('render-' + this.templateArgs.packageName.replace('_', '-') + '.js'),
+                       this.destinationPath(this.templateArgs.packageName + '/render.js'),
                        this.templateArgs);
         ['list/app.js', 'list/main.js.swig', 'object/app.js', 'object/main.js.swig'].forEach(function (fname) {
             this.fs.copyTpl(this.templatePath('js/__package__/' + fname),
@@ -98,9 +98,9 @@ module.exports = yeoman.generators.Base.extend({
       this.log(modelName + 'ModelView(app, db, ' + modelName + ')');
       this.log('**************************************************************\n');
       this.log('********************* gulpfile.js ****************************');
-      this.log('var render' + modelName + ' = require(\'render-' + this.templateArgs.packageName.replace('-') +  '\')');
+      this.log('var render' + modelName + ' = require(\'./render-' + this.templateArgs.packageName.replace('-'));
       this.log('gulp.task("render", function () {');
-      this.log('    render' + modelName + '(scriptsMap, shimsMap, urlRoot)');
+      this.log('    require(\'' + this.templateArgs.packageName + '/rendor\')(scriptsMap, shimsMap, urlRoot)');
       this.log('})');
       this.log('**************************************************************\n');
   }

@@ -23,4 +23,4 @@ require.config({
     }
 });
 
-require(['<%= packageName =>/object/app'], function () {});
+require(['<%= packageName %>/object/app'], function () {});

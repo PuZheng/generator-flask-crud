@@ -1,14 +1,11 @@
 # -*- coding: UTF-8 -*-
 from flask import (Blueprint, flash, render_template, redirect, request,
-                   jsonify, url_for, current_app)
+                   jsonify, url_for)
 from flask.ext.login import login_required
 from flask.ext.wtf import Form
 from flask.ext.babel import _
 from wtforms_alchemy import model_form_factory
-from wtforms import Field
 from collections import namedtuple
-from path import path
-import yaml
 
 
 bp = Blueprint('<%= packageName %>', __name__, static_folder='static',
@@ -16,31 +13,33 @@ bp = Blueprint('<%= packageName %>', __name__, static_folder='static',
 
 ModelForm = model_form_factory(Form)
 
+
 class <%= modelName %>ModelView(object):
 
     instance = None
 
     def __init__(self, app, db, model_cls, page_size=None):
-        if not self.instance:
-            self.instance = namedtuple('<%= modelName %>ModelView',
-                                       'app model_cls db page_size'
-                                       )
-            (app, model_cls, db, page_size or app.config.get('PAGE_SIZE', 16))
+        if not <%= modelName =>ModelView.instance:
+            <%= modelName =>ModelView.instance = namedtuple(
+                '<%= modelName %>ModelView', 'app model_cls db page_size'
+            )(app, model_cls, db, page_size or app.config.get('PAGE_SIZE', 16))
 
-        app.register_blueprint(bp, url_prefix='<%= packageName %>')
-
+        app.register_blueprint(bp, url_prefix='/<%= packageName %>')
 
 
 @bp.route('/object/<int:id_>', methods=['GET', 'POST'])
 @bp.route('/object', methods=['GET', 'POST'])
 @login_required
-@dump_request(['POST'])
 def object_view(id_=None):
 
     model_view = <%= modelName %>ModelView.instance
 
     obj = model_view.model_cls.query.get_or_404(id_) if id_ else None
 
+    class _Form(ModelForm):
+
+        class Meta:
+            model = model_view.model_cls
     form = _Form(obj=obj)
     if form.validate_on_submit():
         # if create a new object, return to object list
@@ -92,10 +91,9 @@ def list_view():
     pagination = q.paginate(page, model_view.page_size)
     q = q.offset((page - 1) * model_view.page_size).limit(model_view.page_size)
 
-    objs = q
     return render_template('<%= packageName %>/list.html',
                            pagination=pagination,
-                           objs=objs, mapper=model_view.model_cls.__mapper__)
+                           objs=q.all(), mapper=model_view.model_cls.__mapper__)
 
 
 

@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/' + request.blueprint + '/list.css') }}">
 {% endblock %}
 
-{% block content %}
+{% block main %}
   <div class="ui page grid">
     <div class="row">
       <% if (searchable) { %>
@@ -51,6 +51,7 @@
             </span>
           </div>
         </div>
+        {% if objs %}
         <table class="table ui attached segment">
           <thead>
             <tr>
@@ -73,6 +74,11 @@
             {% endfor %}
           </tbody>
         </table>
+        {% else %}
+          <div class="ui info message">
+            {{ _("-- No items --") }}
+          </div>
+        {% endif %}
         <div class="ui inverted dimmer mask">
           <div class="ui loader"></div>
         </div>
