@@ -72,7 +72,9 @@
                     position: 'toast-bottom-center'
                 });
             }).fail(function () {
-
+                toastr.fail('failed', '', {
+                    position: 'toast-bottom-center'
+                });
             }).always(function () {
                 $('.ui.form').removeClass('loading');
             });

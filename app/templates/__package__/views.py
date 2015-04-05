@@ -101,10 +101,11 @@ def list_view():
 @login_required
 def list_json():
     model_view = <%= modelName %>ModelView.instance
+    model = ModelView.model_cls
     session = model_view.db.session
     if request.method == 'DELETE':
         for id_ in request.args['ids'].split(','):
-            session.delete(model_view.model_cls.query.get(id_))
+            session.delete(model.query.get(id_))
         session.commit()
         return 'ok'
     elif request.method == 'PUT':
@@ -119,16 +120,18 @@ def list_json():
             'data': [obj.to_dict() for obj in model.query]
         })
 
-    name = request.args.get('name')
+    q = model.query
+    if request.args.get('ids'):
+        q = objs.filter(model.id.in_(request.args.get('ids')))
     return jsonify({
-        'data': [obj.to_dict() for obj in
-                 model.query.filter(model.name == name)]
+        'data': [obj.to_dict() for obj in q.all()]
     })
 
 
 @bp.route('/object/<int:id_>.json', methods=['PUT', 'DELETE'])
 @login_required
 def object_json(id_):
+    model_view = <%= modelName %>ModelView.instance
     model = model_view.model_cls
     obj = model.query.get_or_404(id_)
     ret = jsonify(obj.to_dict())
@@ -142,6 +145,7 @@ def object_json(id_):
         session.delete(obj)
         session.commit()
     return ret
+
 
 <% if (searchable) { %>
 @bp.route('/search/<kw>')

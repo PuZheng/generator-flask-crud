@@ -18,7 +18,7 @@ require.config({
     },
     shim: {
         {% for lib in ['semantic-ui'] %}
-        '{{ lib }}': '{{ shimsMap[lib]|json }}',
+        '{{ lib }}': {{ JSON.stringify(shimsMap[lib]) }},
         {% endfor %}
     }
 });
