@@ -151,23 +151,19 @@ def object_json(id_):
 @bp.route('/search/<kw>')
 @login_required
 def search_view(kw=None):
-    model_cls = model_view.model_cls
+    model_cls = <%= modelName %>ModelView.model_cls
     <% if (searchableFields.length > 1) { %>
     q = model_cls.query.filter(or_(
         <%= searchableFields.map(function (field) {
             return 'model_view.model_cls' + field + '.like(u\'%%s%%\' % kw)';
         }).join(', ') %>
-    ))
-    <% } else { %>
+    ))<% } else { %>
     q = model_cls.query.filter(
-        model_cls.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))
-    <% } %>
-
+        model_cls.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))<% } %>
     return jsonify({
         "results": [{
             "title": entry.name,
             "url": url_for('.list_view',
                            kw=entry.<%= searchableFields[0] %>),
         } for entry in q],
-    })
-<% } %>
+    })<% } %>

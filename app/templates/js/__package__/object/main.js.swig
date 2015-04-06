@@ -12,12 +12,12 @@ require.config({
     },
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
-        {% for lib in ['css', 'text', 'jquery', 'semantic-ui'] %}
+        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr'] %}
         '{{ lib }}': '{{ urlRoot }}static/bower_components/{{ scriptsMap[lib] }}',
         {% endfor %}
     },
     shim: {
-        {% for lib in ['semantic-ui'] %}
+        {% for lib in ['semantic-ui', 'sweetart', 'toastr'] %}
         '{{ lib }}': {{ JSON.stringify(shimsMap[lib]) }},
         {% endfor %}
     }

@@ -25,9 +25,6 @@
             {% endif %}
           </h3>
         </div>
-        {% if form.errors %}
-          {{ errors(form) }}
-        {% endif %}
         <form class="ui form attached fluid segment" method="POST">
           {{ form.csrf_token }}
 
@@ -38,9 +35,18 @@
             <input type="hidden" name="cover_id">
           {% endif %}
 
-          <div class="field">
+          <div class="field {% if form.errors.foo %}error{% endif %}">
             <label for="input-foo">Foo</label>
-            <input type="text" name='foo' id="input-foo" placeholder="input foo here..." value="{{ form.data.foo or ''}}" {% if not obj %}autofocus{% endif %}>
+            <input type="text" name='foo' id="input-foo" placeholder="input foo here..." value="{{ form.data.foo or ''}}" {% if not obj %}autofocus{% endif %} data-committed-value="{{ form.data.foo }}">
+            {% if form.errors.foo %}
+              <div class="ui red pointing prompt label transition visible">
+                <ul class="ui list">
+                  {% for error in form.errors.foo %}
+                    <li class="item">{{ error }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
           </div>
           <div class="ui divider"></div>
 

@@ -2,10 +2,11 @@
     'use strict';
     // Set up Backbone appropriately for the environment. Start with AMD.
     if (typeof define === 'function' && define.amd) {
-        define(['jquery', 'toastr', 'semantic-ui'], function($, toastr) {
+        define(['jquery', 'toastr', 'sweetalert', 'crud-utils',
+               'semantic-ui'], function($, toastr, swal, crudUtils) {
             // Export global even in AMD case in case this script is loaded with
             // others that may still expect a global Backbone.
-            root.foo = factory(root, $, toastr);
+            root.foo = factory(root, $, toastr, swal, crudUtils);
         });
 
         // Next for Node.js or CommonJS. jQuery may not be needed as a module.
@@ -15,17 +16,46 @@
     } else {
         factory(root, (root.jQuery || root.Zepto || root.ender || root.$));
     }
-}(this, function(root, $, toastr) {
+}(this, function(root, $, toastr, swal, crudUtils) {
     'use strict';
 
     var objId = $('.ui.form :hidden[name="id"]').val(); 
 
     $('.ui.form').submit(function () {
-        if (objId) { 
-            return false;
-        }
+        return !objId; // prevent submit the form when edit the object
     });
 
+    $('.remove.button').click(function () {
+        swal({
+            type: 'warning',
+            title: 'Warning',
+            text: 'Are you sure to delete this <%= modelName %>',
+            showCancelButton: true,
+            closeOnConfirm: false,
+        }, function () {
+            $('.ui.form').addClass('loading');
+            $.ajax({
+                url: '/<%= packageName %>/object/' + objId + '.json',
+                type: 'DELETE'
+            }).done(function () {
+                swal({
+                    type: 'success',
+                    title: 'success!',
+                    text: '<%= modelName %> "' + $('[name="name"]').val() + '" has been removed!'
+                }, function () {
+                    window.location.href = '/vendor/list';
+                });
+            }).fail(function () {
+                swal({
+                    type: 'error',
+                    title: 'Error!',
+                    text: 'Can\'t remove <%= modelName %> "' + $('[name="name"]').val() + '"',
+                });
+            }).always(function () {
+                $('.ui.form').removeClass('loading');
+            });
+        });
+    });
 
     $('.ui.form').form({
         // you should place all the fields here, including the optional one 
@@ -52,32 +82,36 @@
             },
         },
         onValid: function () {
-            if (!objId) {
-                return; // only commit the change when EDIT the object
+            if (!objId || (this.val() === this.attr('data-committed-value'))) {
+                return; // only commit the change when EDIT the object, and this field is changed
             }
-            if (this.attr('value') === this.val()) {
-                return; // only commit the change when value changed
-            }
-            $('.ui.form').addClass('.loading');
+            $('.ui.form').addClass('loading');
+
             var data = {};
+            var $input = this;
             data[this.attr('name')] = this.val();
             $.ajax({
-                url: 'object/' + objId + '.json',
+                url: objId + '.json',
                 type: 'PUT',
                 data: JSON.stringify(data),
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
             }).done(function () {
                 toastr.success('updated!', '', {
-                    position: 'toast-bottom-center'
+                    positionClass: 'toast-bottom-center',
+                    timeOut: 1000,
                 });
-            }).fail(function () {
-                toastr.fail('failed', '', {
-                    position: 'toast-bottom-center'
+                $input.attr('data-committed-value', $input.val());
+            }).fail(function (data) {
+                data.responseJSON && crudUtils.showFormErrors(data.responseJSON.errors);
+                toastr.error('update failed!', '', {
+                    positionClass: 'toast-bottom-center',
+                    timeOut: 1000,
                 });
             }).always(function () {
                 $('.ui.form').removeClass('loading');
             });
+
         },
     });
     $('.ui.form input').keypress(function (e) {

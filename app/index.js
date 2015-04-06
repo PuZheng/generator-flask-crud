@@ -60,6 +60,8 @@ module.exports = yeoman.generators.Base.extend({
         this.fs.copyTpl(this.templatePath('render.js'),
                        this.destinationPath(this.templateArgs.packageName + '/render.js'),
                        this.templateArgs);
+        this.fs.copy(this.templatePath('js/crud-utils.js'),
+                    this.destinationPath('static/js/crud-utils.js'));
         ['list/app.js', 'list/main.js.swig', 'object/app.js', 'object/main.js.swig'].forEach(function (fname) {
             this.fs.copyTpl(this.templatePath('js/__package__/' + fname),
                            this.destinationPath('static/js/' + this.templateArgs.packageName + '/' + fname),
