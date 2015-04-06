@@ -61,7 +61,11 @@ MIT
 
 Why it is a generator but a lib like [flask-admin](https://github.com/mrjoes/flask-admin/), the only reason is:
 
-> CRUD are such common operations, every severe web developer should understand the internals. A thick library is inconvenient to hack. and in most scenarios, it needs to be hacked
+> CRUD are such common operations, every severe web developer should understand the internals. A thick library is inconvenient to hack. and unluckily, in most scenarios, it needs to be hacked
 > to meet the requirements. Then it will be bloated with more and more config options, and finally make the view layer and control layer a mess. 
 
 So, I make it the PART of the project (that you could modify easily and avoid repeating CRUD code again and again), but A LIBRARY underneath the project.
+
+## How to develop based upon this skeleton.
+
+> read this article ["CRUD implementations - a modern way"]() carefully at first.

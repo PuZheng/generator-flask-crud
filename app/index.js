@@ -91,22 +91,6 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   end: function () {
-      var packageName = this.templateArgs.packageName;
-      var modelName = this.templateArgs.modelName;
-      this.log('please don\'t remember to add the following codes to make the views work: ');
-      this.log('********************* basemain.py ****************************');
-      this.log('from ' + packageName + ' import ' + modelName + 'ModelView(app)');
-      this.log('from .models' + ' import ' + modelName);
-      this.log(modelName + 'ModelView(app, db, ' + modelName + ')');
-      this.log('**************************************************************\n');
-      this.log('********************* gulpfile.js ****************************');
-      this.log('var render' + modelName + ' = require(\'./render-' + this.templateArgs.packageName.replace('-'));
-      this.log('gulp.task("render", function () {');
-      this.log('    require(\'' + this.templateArgs.packageName + '/rendor\')(scriptsMap, shimsMap, urlRoot)');
-      this.log('})');
-      this.log('**************************************************************\n');
-      this.log('and install the following packages:');
-      this.log('    * toastr(https://github.com/CodeSeven/toastr/blob/master/toastr.js)');
-      this.log('    * sweetalert(https://github.com/t4t5/sweetalert)');
+      this.log(lodash.template(this.fs.read(this.templatePath('manifest.txt')))(this.templateArgs));
   }
 });
