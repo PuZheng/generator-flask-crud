@@ -43,7 +43,7 @@
                     title: 'success!',
                     text: '<%= modelName %> "' + $('[name="name"]').val() + '" has been removed!'
                 }, function () {
-                    window.location.href = '/vendor/list';
+                    window.location.href = '/<%= packageName %>/list';
                 });
             }).fail(function () {
                 swal({
@@ -117,6 +117,7 @@
     $('.ui.form input').keypress(function (e) {
         if (e.keyCode === 13) {
             $(this).blur();
+            return false;
         }
     });
 }));

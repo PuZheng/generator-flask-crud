@@ -147,11 +147,10 @@ def object_json(id_):
     return ret
 
 
-<% if (searchable) { %>
-@bp.route('/search/<kw>')
+<% if (searchable) { %>@bp.route('/search/<kw>')
 @login_required
 def search_view(kw=None):
-    model_cls = <%= modelName %>ModelView.model_cls
+    model_cls = <%= modelName %>ModelView.instance.model_cls
     <% if (searchableFields.length > 1) { %>
     q = model_cls.query.filter(or_(
         <%= searchableFields.map(function (field) {
