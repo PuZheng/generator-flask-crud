@@ -73,3 +73,11 @@ before development, make sure you have read this article ["CRUD implementations 
 ### object list
 
     * add your filters (search for "filters" in "list.html") or just remove them if you have no filter.
+    * only the columns defined in model's database table are listed in default, add/remove fields in 'thead', 'tbody'.
+
+### object
+    
+    * add fields
+    * add validation rule for each field in 'object/app.js'
+    * add validation test in 'object\_view' if necessary.
+    * add validation test in 'object\_json' if necessary.

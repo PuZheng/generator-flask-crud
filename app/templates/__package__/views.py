@@ -68,21 +68,16 @@ def list_view():
 
     model_view = <%= modelName %>ModelView.instance
     q = model_view.model_cls.query
-
     <% if (searchable) { %>
     kw = request.args.get('kw')
     if kw:
-        <% if (searchableFields.length > 1) { %>
-        q = q.filter(or_(
+        <% if (searchableFields.length > 1) { %>q = q.filter(or_(
             <%= searchableFields.map(function (field) {
                 return 'model_view.model_cls.' + field + '.like(u\'%%s%%\' % kw)';
             }).join(', ') %>
-        ))
-        <% } else { %>
-        q = q.filter(model_view.model_cls.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))
-        <% } %>
+        ))<% } else { %>
+        q = q.filter(model_view.model_cls.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))<% } %>
     <% } %>
-
     if order_by:
         order_by_criterion = getattr(model_view.model_cls, order_by)
         if desc:
