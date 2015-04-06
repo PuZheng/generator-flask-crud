@@ -28,10 +28,10 @@
   </div>
 {%- endmacro %}
 
-{% macro th_cell(col) -%}
+{% macro th_cell(col, label=None) -%}
   <th {% if col.doc %}title="{{ col.doc }}"{% endif %}>
     {% call sort_url(col.name) %}
-      {{ col.name }}
+      {{ label or col.name }}
       {% if request.args.order_by == col.name %}
         {% if request.args.desc == '1' %}
           <i class="caret up icon"></i>

@@ -6,11 +6,11 @@ var swig = require('gulp-swig');
 module.exports = function (scriptsMap, shimsMap, urlRoot) {
     'use strict';
 
-    gulp.src(['static/js/<%= packageName %>/*.swig']).pipe(data({
+    gulp.src(['static/js/<%= packageName %>/**/*.swig']).pipe(data({
         scriptsMap: scriptsMap,
         shimsMap: shimsMap,
         urlRoot: urlRoot,
     })).pipe(swig()).pipe(rename(function (path) {
         path.extname = '';
-    })).pipe(gulp.dest('static/js/'));
+    })).pipe(gulp.dest('static/js/<%= packageName %>'));
 };

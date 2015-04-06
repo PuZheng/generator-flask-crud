@@ -101,7 +101,7 @@ def list_view():
 @login_required
 def list_json():
     model_view = <%= modelName %>ModelView.instance
-    model = ModelView.model_cls
+    model = model_view.model_cls
     session = model_view.db.session
     if request.method == 'DELETE':
         for id_ in request.args['ids'].split(','):

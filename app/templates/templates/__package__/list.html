@@ -13,7 +13,7 @@
       <div class="sixteen wide column right aligned">
         <div class="ui right aligned search">
           <form class="ui icon input">
-            <input class="prompt" type="text" name='kw' placeholder="{{ _('Search') }} ..." value="{{ request.args.kw }}">
+            <input class="prompt" type="text" name='kw' placeholder="{{ _('Search <%= modelName %>') }} ..." value="{{ request.args.kw }}">
             <i class="search icon"></i>
           </form>
           <div class="results"></div>
