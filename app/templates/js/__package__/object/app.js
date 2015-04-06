@@ -29,9 +29,10 @@
         swal({
             type: 'warning',
             title: 'Warning',
-            text: 'Are you sure to delete this <%= modelName %>',
+            text: 'Are you sure to remove this <%= modelName %>?',
             showCancelButton: true,
             closeOnConfirm: false,
+            cancelButtonText: 'Don\'t remove!',
         }, function () {
             $('.ui.form').addClass('loading');
             $.ajax({
@@ -40,10 +41,10 @@
             }).done(function () {
                 swal({
                     type: 'success',
-                    title: 'success!',
+                    title: 'Success!',
                     text: '<%= modelName %> "' + $('[name="name"]').val() + '" has been removed!'
                 }, function () {
-                    window.location.href = '/<%= packageName %>/list';
+                    root.location.href = '/<%= packageName %>/list';
                 });
             }).fail(function () {
                 swal({
