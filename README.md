@@ -68,4 +68,8 @@ So, I make it the PART of the project (that you could modify easily and avoid re
 
 ## How to develop based upon this skeleton.
 
-> read this article ["CRUD implementations - a modern way"]() carefully at first.
+before development, make sure you have read this article ["CRUD implementations - a modern way"]() carefully. and setup as the generator told.
+
+### object list
+
+    * add your filters (search for "filters" in "list.html") or just remove them if you have no filter.

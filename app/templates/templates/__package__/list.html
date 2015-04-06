@@ -32,7 +32,7 @@
                 <a href="{{ url_for('.object_view', next=request.url) }}">
                   <div class="ui animated positive fade button">
                     <div class="hidden content">
-                      新建
+                      {{ _('Create') }}
                     </div>
                     <div class="visible content">
                       <i class="icon plus"></i>
@@ -41,7 +41,7 @@
                 </a>
                 <button class="ui animated negative fade remove button">
                   <div class="hidden content">
-                    删除
+                    {{ _('Remove') }}
                   </div>
                   <div class="visible content">
                     <i class="icon remove"></i>
