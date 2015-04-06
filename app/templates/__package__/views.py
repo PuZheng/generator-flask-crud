@@ -19,8 +19,8 @@ class <%= modelName %>ModelView(object):
     instance = None
 
     def __init__(self, app, db, model_cls, page_size=None):
-        if not <%= modelName =>ModelView.instance:
-            <%= modelName =>ModelView.instance = namedtuple(
+        if not <%= modelName %>ModelView.instance:
+            <%= modelName %>ModelView.instance = namedtuple(
                 '<%= modelName %>ModelView', 'app model_cls db page_size'
             )(app, model_cls, db, page_size or app.config.get('PAGE_SIZE', 16))
 
