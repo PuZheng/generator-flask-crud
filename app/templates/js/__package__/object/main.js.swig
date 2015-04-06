@@ -12,7 +12,7 @@ require.config({
     },
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
-        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr'] %}
+        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr', 'crud-utils'] %}
         '{{ lib }}': '{{ urlRoot }}static/bower_components/{{ scriptsMap[lib] }}',
         {% endfor %}
     },

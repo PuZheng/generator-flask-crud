@@ -103,7 +103,7 @@
                 });
                 $input.attr('data-committed-value', $input.val());
             }).fail(function (data) {
-                data.responseJSON && crudUtils.showFormErrors(data.responseJSON.errors);
+                data.responseJSON && crudUtils.showFormErrors(data.responseJSON.errors, $('.ui.form'));
                 toastr.error('update failed!', '', {
                     positionClass: 'toast-bottom-center',
                     timeOut: 1000,
