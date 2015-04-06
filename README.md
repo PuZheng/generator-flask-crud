@@ -78,6 +78,6 @@ before development, make sure you have read this article ["CRUD implementations 
 ### object
     
     * add fields
-    * add validation rule for each field in 'object/app.js'
-    * add validation test in 'object\_view' if necessary.
-    * add validation test in 'object\_json' if necessary.
+    * make sure there's one validation rule for each field in 'object/app.js' (this is due to a bug of semantic-ui).
+    * add validation tests in 'object\_view' if necessary.
+    * add validation tests in 'object\_json' if necessary, return 403 if validation failed.

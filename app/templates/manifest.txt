@@ -1,0 +1,21 @@
+
+
+====================================== Congratulations! ===========================================
+you have generate a crud implementation skeleton, to have it really work, please don't forget to make the following extra works:
+
+    * in your "basemain.py", add following codes:
+
+        from <%= packageName %> import <%= modelName %>ModelView
+        from .models import <%= modelName %>
+        <%= modelName %>ModelView(app, db, <%= modelName %>):
+
+    * in your "gulpfile.js", add following codes:
+
+        gulp.task("render", function () {
+                require('<%= packageName %>/rendor')(scriptsMap, shimsMap, urlRoot);
+                });
+
+    * make sure the following packages are installed:
+
+        - toastr(https://github.com/CodeSeven/toastr/blob/master/toastr.js)
+        - sweetalert(https://github.com/t4t5/sweetalert)

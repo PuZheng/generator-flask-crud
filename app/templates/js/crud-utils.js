@@ -5,7 +5,8 @@
         define(['jquery'], function($) {
             // Export global even in AMD case in case this script is loaded with
             // others that may still expect a global Backbone.
-            root.foo = factory(root, $);
+            root.crudUtils = factory(root, $);
+            return root.crudUtils;
         });
 
         // Next for Node.js or CommonJS. jQuery may not be needed as a module.

@@ -6,7 +6,7 @@
                'semantic-ui'], function($, toastr, swal, crudUtils) {
             // Export global even in AMD case in case this script is loaded with
             // others that may still expect a global Backbone.
-            root.foo = factory(root, $, toastr, swal, crudUtils);
+            factory(root, $, toastr, swal, crudUtils);
         });
 
         // Next for Node.js or CommonJS. jQuery may not be needed as a module.
