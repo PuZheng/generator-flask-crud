@@ -44,14 +44,14 @@
         swal({
             type: 'warning',
             title: 'Warning!',
-            text: 'Are you sure to remove the selected record(s)? (unrecoverable)',
+            text: 'Are you sure to remove the selected record(s)?',
             cancelButtonText: 'Do not remove！',
             closeOnConfirm: false,
             showCancelButton: true,
         }, function () {
             $('.ui.dimmer.mask').addClass('mask');
             $.ajax({
-                url: '/<%= modelName %>/list.json?ids=' + $('td input:checked').map(function () {
+                url: '/<%= packageName %>/list.json?ids=' + $('td input:checked').map(function () {
                     return $(this).attr('data-id');
                 }).get().join(','),
                 type: 'DELETE',
