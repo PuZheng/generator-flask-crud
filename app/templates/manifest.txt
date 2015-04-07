@@ -7,7 +7,7 @@ you have generate a crud implementation skeleton, to have it really work, please
 
         from <%= packageName %> import <%= modelName %>ModelView
         from .models import <%= modelName %>
-        <%= modelName %>ModelView(app, db, <%= modelName %>):
+        <%= modelName %>ModelView(app, db, <%= modelName %>)
 
     * in your "gulpfile.js", add following codes:
 

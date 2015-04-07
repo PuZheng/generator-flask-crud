@@ -34,9 +34,9 @@
       {{ label or col.name }}
       {% if request.args.order_by == col.name %}
         {% if request.args.desc == '1' %}
-          <i class="caret up icon"></i>
-        {%else %}
           <i class="caret down icon"></i>
+        {%else %}
+          <i class="caret up icon"></i>
         {%endif %}
       {% endif %}
       {% if col.doc %}
@@ -59,15 +59,18 @@
 {%- endmacro %}
 
 {% macro sort_url(col_name) -%}
-{% set args = request.args.to_dict() %}
-{% do args.update(order_by=col_name) %}
-  {% set sort_url = url_for(request.endpoint, **args) %}
-  {% if request.args.order_by == col_name and not request.args.desc %}
-  {% set sort_url = sort_url + '&desc=1'%}
+  {% set args = request.args.to_dict() %}
+  {% do args.update(order_by=col_name) %}
+  {% if request.args.order_by == col_name %}
+    {% if not request.args.desc or request.args.desc == '0' %}
+      {% do args.update(desc=1) %}
+    {% else %}
+      {% do args.pop('desc') %}
+    {% endif %}
   {% endif %}
+  {% set sort_url = url_for(request.endpoint, **args) %}
   <a href="{{ sort_url }}"> {{ caller() }}</a>
 {%- endmacro %}
-
 
 {% macro errors(form) -%}
 <div class="ui attached error message">
