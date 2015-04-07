@@ -21,33 +21,31 @@
       </div>
       <% } %>
       <div class="sixteen wide column">
-        <div class="ui attached message">
+        <div class="ui attached top segment">
           <div class="filters ui form">
           </div>
           <div class="ui divider">
           </div>
           <div class='actions'>
             <span class="header">
-              <span>
-                <a href="{{ url_for('.object_view', next=request.url) }}">
-                  <div class="ui animated positive fade button">
-                    <div class="hidden content">
-                      {{ _('Create') }}
-                    </div>
-                    <div class="visible content">
-                      <i class="icon plus"></i>
-                    </div>
-                  </div>
-                </a>
-                <button class="ui animated negative fade remove button">
+              <a href="{{ url_for('.object_view', next=request.url) }}">
+                <div class="ui animated positive fade tiny button">
                   <div class="hidden content">
-                    {{ _('Remove') }}
+                    {{ _('Create') }}
                   </div>
                   <div class="visible content">
-                    <i class="icon remove"></i>
+                    <i class="icon plus"></i>
                   </div>
-                </button>
-              </span>
+                </div>
+              </a>
+              <button class="ui animated negative fade remove tiny button">
+                <div class="hidden content">
+                  {{ _('Remove') }}
+                </div>
+                <div class="visible content">
+                  <i class="icon remove"></i>
+                </div>
+              </button>
             </span>
           </div>
         </div>
