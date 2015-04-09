@@ -51,6 +51,7 @@ module.exports = yeoman.generators.Base.extend({
     this.prompt(prompts, function (props) {
         this.templateArgs = {};
         this.templateArgs.modelsModule = props.modelsModule;
+        this.templateArgs.doCommitModule = props.doCommitModule;
         this.templateArgs.packageName = props.packageName;
         this.templateArgs.modelName = props.modelName;
         this.templateArgs.searchable = props.searchable;
