@@ -75,6 +75,7 @@
             }],
         },
     }, {
+        keyboardShortcuts: !objId, // only when create, enter will submit the form 
         inline: true,
         on: 'blur',
         rules: {
