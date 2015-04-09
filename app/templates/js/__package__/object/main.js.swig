@@ -6,14 +6,14 @@ require.config({
             // 将text设置成为"empty:", 为了避免将text.js压缩到r.js中， 必须将其
             // 加入到excludes中, 具体看https://github.com/jrburke/r.js/issues/221
             {% for lib in ['text', 'css'] %}
-            '{{ lib }}': '{{ urlRoot }}static/bower_components/{{ scriptsMap[lib] }}.js',
+            '{{ lib }}': '{{ urlRoot }}{{ scriptsMap[lib] }}.js',
             {% endfor %}
         }
     },
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
         {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr'] %}
-        '{{ lib }}': '{{ urlRoot }}static/bower_components/{{ scriptsMap[lib] }}',
+        '{{ lib }}': '{{ urlRoot }}{{ scriptsMap[lib] }}',
         {% endfor %}
     },
     shim: {
