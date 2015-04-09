@@ -30,6 +30,10 @@ module.exports = yeoman.generators.Base.extend({
         name: 'modelName',
         message: 'your model\'s name',
     }, {
+        type: 'input',
+        name: 'doCommitModule',
+        message: 'the module defining function do_commit',
+    }, {
         type: 'confirm',
         name: 'searchable',
         message: 'if the model could be searched',

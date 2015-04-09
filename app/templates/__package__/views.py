@@ -8,6 +8,7 @@ from wtforms_alchemy import model_form_factory
 from collections import namedtuple
 
 from <%= modelsModule %> import <%= modelName %>
+from <%= doCommitModule %> import do_commit
 
 
 bp = Blueprint('<%= packageName %>', __name__, static_folder='static',
@@ -34,8 +35,6 @@ class <%= modelName %>ModelView(object):
 @login_required
 def object_view(id_=None):
 
-    model_view = <%= modelName %>ModelView.instance
-
     obj = <%= modelName %>.query.get_or_404(id_) if id_ else None
 
     class _Form(ModelForm):
@@ -48,8 +47,7 @@ def object_view(id_=None):
         back_ref = request.url if obj else url_for('.list_view')
         obj = obj or <%= modelName %>()
         form.populate_obj(obj)
-        model_view.db.session.add(obj)
-        model_view.db.session.commit()
+        do_commit(<%= modelName %>ModelView.instance.db, obj)
 
         flash(_(u'%(model_name)s %(model)s was %(method)s successfully',
                 model_name='<%=modelName %>', model=unicode(obj),
@@ -100,28 +98,29 @@ def list_view():
 @bp.route('/list.json', methods=['GET', 'DELETE', 'PUT'])
 @login_required
 def list_json():
-    model_view = <%= modelName %>ModelView.instance
-    session = model_view.db.session
+    db = <%= modelName %>ModelView.instance.db
     if request.method == 'DELETE':
-        for id_ in request.args['ids'].split(','):
-            session.delete(<%= modelName %>.query.get(id_))
-        session.commit()
+        do_commit(db, filter(lambda x: x, [
+            <%= modelName %>.query.get(id_) for id_ in
+            request.args['ids'].split(',')
+        ]), action='delete')
         return 'ok'
     elif request.method == 'PUT':
-        objs = [<%= modelName %>.query.get(id_) for id_ in
-                request.args['ids'].split(',')]
+        objs = filter(lambda x: x, [<%= modelName %>.query.get(id_) for id_ in
+                                    request.args['ids'].split(',')])
         for obj in objs:
             for k, v in request.json.items():
                 setattr(obj, k, v)
-        session.add_all(objs)
-        session.commit()
+        do_commit(db, objs)
+
         return jsonify({
-            'data': [obj.to_dict() for obj in model.query]
+            'data': [obj.to_dict() for obj in objs]
         })
 
-    q = model.query
+    # GET
+    q = <%= modelName %>.query
     if request.args.get('ids'):
-        q = objs.filter(model.id.in_(request.args.get('ids')))
+        q = objs.filter(<%= modelName %>.id.in_(request.args.get('ids')))
     return jsonify({
         'data': [obj.to_dict() for obj in q.all()]
     })
@@ -130,18 +129,15 @@ def list_json():
 @bp.route('/object/<int:id_>.json', methods=['PUT', 'DELETE'])
 @login_required
 def object_json(id_):
-    model_view = <%= modelName %>ModelView.instance
+    db = <%= modelName %>ModelView.instance.db
     obj = <%= modelName %>.query.get_or_404(id_)
     ret = jsonify(obj.to_dict())
-    session = model_view.db.session
     if request.method == 'PUT':
         for k, v in request.json.items():
             setattr(obj, k, v)
-        session.add(obj)
-        session.commit()
-    else:
-        session.delete(obj)
-        session.commit()
+        do_commit(db, obj)
+    else: # DELETE
+        do_commit(db, obj, action='delete')
     return ret
 
 
