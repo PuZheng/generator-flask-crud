@@ -136,7 +136,7 @@ def object_json(id_):
         for k, v in request.json.items():
             setattr(obj, k, v)
         do_commit(db, obj)
-    else: # DELETE
+    else:  # DELETE
         do_commit(db, obj, action='delete')
     return ret
 
