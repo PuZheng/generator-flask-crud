@@ -122,4 +122,16 @@
             return false;
         }
     });
+    function hasDirtyContent() {
+        // add real implementation
+        return true;
+    }
+    window.beforeunload = function (e) {
+        if (!objId && hasDirtyContent()) {
+            var confirmationMessage = 'Unsaved changes will be discarded if you leave this page';
+
+            (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
+            return confirmationMessage;                                //Gecko + Webkit, Safari, Chrome etc.
+        }
+    };
 }));
