@@ -60,6 +60,7 @@ def object_view(id_=None):
                            mapper=<%= modelName %>.__mapper__)
 
 
+
 @bp.route('/list')
 @login_required
 def list_view():
@@ -73,12 +74,14 @@ def list_view():
     <% if (searchable) { %>
     kw = request.args.get('kw')
     if kw:
-        <% if (searchableFields.length > 1) { %>q = q.filter(or_(
+        <% if (searchableFields.length > 1) { %>
+            q = q.filter(or_(
             <%= searchableFields.map(function (field) {
-                return '<%= modelName %>.' + field + '.like(u\'%%s%%\' % kw)';
-            }).join(', ') %>
-        ))<% } else { %>
-        q = q.filter(<%= modelName %>.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))<% } %>
+                return modelName + '.' + field + '.like(u\'%%s%%\' % kw)';
+            }).join(', ') %>))
+        <% } else { %>
+            q = q.filter(<%= modelName %>.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))
+        <% } %>
     <% } %>
     if order_by:
         order_by_criterion = getattr(<%= modelName %>, order_by)
@@ -148,7 +151,7 @@ def search_view(kw=None):
     <% if (searchableFields.length > 1) { %>
     q = <%= modelName %>.query.filter(or_(
         <%= searchableFields.map(function (field) {
-            return '<%= modelName %>' + field + '.like(u\'%%s%%\' % kw)';
+            return modelName + '.' + field + '.like(u\'%%s%%\' % kw)';
         }).join(', ') %>
     ))<% } else { %>
     q = <%= modelName %>.query.filter(
