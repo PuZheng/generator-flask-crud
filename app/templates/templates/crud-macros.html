@@ -67,6 +67,9 @@
     {% else %}
       {% do args.pop('desc') %}
     {% endif %}
+  {% else %}
+    {% do args.update(order_by=col_name) %}
+    {% do args.update(desc=1) %}
   {% endif %}
   {% set sort_url = url_for(request.endpoint, **args) %}
   <a href="{{ sort_url }}"> {{ caller() }}</a>
