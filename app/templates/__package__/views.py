@@ -44,7 +44,8 @@ def object_view(id_=None):
     form = _Form(obj=obj)
     if form.validate_on_submit():
         # if create a new object, return to object list
-        back_ref = request.url if obj else url_for('.list_view')
+        back_ref = request.url if obj else (request.args.get('next')
+                                            or url_for('.list_view'))
         obj = obj or <%= modelName %>()
         form.populate_obj(obj)
         do_commit(<%= modelName %>ModelView.instance.db, obj)
@@ -127,9 +128,22 @@ def list_json():
 
 
 @bp.route('/object/<int:id_>.json', methods=['PUT', 'DELETE'])
+@bp.route('/object.json', methods=['POST'])
 @login_required
 def object_json(id_):
+
     db = <%= modelName %>ModelView.instance.db
+
+    form = _Form(csrf_enabled=False)
+    if request.method == 'POST':
+        if form.validate():
+            obj = Image()
+            form.populate_obj(obj)
+            return jsonify(do_commit(db, obj).to_dict(True))
+        else:
+            return jsonify(form.errors), 403
+
+    # DELETE or PUT
     obj = <%= modelName %>.query.get_or_404(id_)
     ret = jsonify(obj.to_dict())
     if request.method == 'PUT':
