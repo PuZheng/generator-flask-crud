@@ -1,4 +1,6 @@
 # -*- coding: UTF-8 -*-
+from datetime import datetime, date
+import types
 from flask import (Blueprint, flash, render_template, redirect, request,
                    jsonify, url_for)
 from flask.ext.login import login_required
@@ -115,7 +117,7 @@ def list_json():
         do_commit(db, objs)
 
         return jsonify({
-            'data': [obj.to_dict() for obj in objs]
+            'data': objs
         })
 
     # GET
@@ -123,7 +125,7 @@ def list_json():
     if request.args.get('ids'):
         q = objs.filter(<%= modelName %>.id.in_(request.args.get('ids')))
     return jsonify({
-        'data': [obj.to_dict() for obj in q.all()]
+        'data': q.all()
     })
 
 
@@ -139,15 +141,21 @@ def object_json(id_):
         if form.validate():
             obj = Image()
             form.populate_obj(obj)
-            return jsonify(do_commit(db, obj).to_dict(True))
+            return jsonify(do_commit(db, obj).__json__())
         else:
             return jsonify(form.errors), 403
 
     # DELETE or PUT
     obj = <%= modelName %>.query.get_or_404(id_)
-    ret = jsonify(obj.to_dict())
+    ret = jsonify(obj.__json__())
     if request.method == 'PUT':
         for k, v in request.json.items():
+            type_ = getattr(<%= modelName %>,
+                            k).property.columns[0].type.python_type
+            if issubclass(type_, datetime):
+                v = datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
+            elif issubclass(type_, date):
+                v = datetime.strptime(v, '%Y-%m-%d')
             setattr(obj, k, v)
         do_commit(db, obj)
     else:  # DELETE
