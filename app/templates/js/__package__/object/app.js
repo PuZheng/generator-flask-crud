@@ -82,6 +82,9 @@
             'foo-test': function () {
                 return false;
             },
+            'optional': function () {
+                return true;
+            }
         },
         onValid: function () {
             if (!objId || (this.val() === this.attr('data-committed-value'))) {
@@ -122,12 +125,12 @@
             return false;
         }
     });
-    function hasDirtyContent() {
+    function dirty() {
         // add real implementation
         return true;
     }
-    window.beforeunload = function (e) {
-        if (!objId && hasDirtyContent()) {
+    window.onbeforeunload = function (e) {
+        if (!objId && dirty()) {
             var confirmationMessage = 'Unsaved changes will be discarded if you leave this page';
 
             (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
