@@ -151,10 +151,10 @@ def object_json(id_):
     if request.method == 'PUT':
         for k, v in request.json.items():
             type_ = getattr(<%= modelName %>,
-                            k).property.columns[0].type.python_type
-            if issubclass(type_, datetime):
+                            k).property.columns[0].type
+            if isinstance(type_, db.DateTime):
                 v = datetime.strptime(v, '%Y-%m-%d %H:%M:%S')
-            elif issubclass(type_, date):
+            elif isinstance(type_, db.Date):
                 v = datetime.strptime(v, '%Y-%m-%d')
             setattr(obj, k, v)
         do_commit(db, obj)
