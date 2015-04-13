@@ -2,11 +2,11 @@
     'use strict';
     // Set up Backbone appropriately for the environment. Start with AMD.
     if (typeof define === 'function' && define.amd) {
-        define(['jquery', 'toastr', 'sweetalert', 'crud-utils',
-               'semantic-ui'], function($, toastr, swal, crudUtils) {
+        define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
+               'semantic-ui'], function($, toastr, swal, crudUtils, URI) {
             // Export global even in AMD case in case this script is loaded with
             // others that may still expect a global Backbone.
-            factory(root, $, toastr, swal, crudUtils);
+            factory(root, $, toastr, swal, crudUtils, URI);
         });
 
         // Next for Node.js or CommonJS. jQuery may not be needed as a module.
@@ -16,7 +16,7 @@
     } else {
         factory(root, (root.jQuery || root.Zepto || root.ender || root.$));
     }
-}(this, function(root, $, toastr, swal, crudUtils) {
+}(this, function(root, $, toastr, swal, crudUtils, URI) {
     'use strict';
 
     var objId = $('.ui.form :hidden[name="id"]').val(); 
@@ -44,7 +44,7 @@
                     title: 'Success!',
                     text: '<%= modelName %> "' + $('[name="name"]').val() + '" has been removed!'
                 }, function () {
-                    root.location.href = '/<%= packageName %>/list';
+                    root.location.href = URI(root.location.href).query(true).backref || '/<%= packageName %>/list';
                 });
             }).fail(function () {
                 swal({

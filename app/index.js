@@ -63,7 +63,7 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     app: function () {
         ['__init__.py', 'views.py'].forEach(function (fname) {
-            this.fs.copyTpl(this.templatePath('__package__/' + fname),
+            this.fs.copyTpl(this.templatePath('package/' + fname),
                            this.destinationPath(this.templateArgs.packageName + '/' + fname), 
                            this.templateArgs);
         }.bind(this));
@@ -73,18 +73,18 @@ module.exports = yeoman.generators.Base.extend({
         this.fs.copy(this.templatePath('js/crud-utils.js'),
                     this.destinationPath('static/js/crud-utils.js'));
         ['list/app.js', 'list/main.js.swig', 'object/app.js', 'object/main.js.swig'].forEach(function (fname) {
-            this.fs.copyTpl(this.templatePath('js/__package__/' + fname),
+            this.fs.copyTpl(this.templatePath('js/package/' + fname),
                            this.destinationPath('static/js/' + this.templateArgs.packageName + '/' + fname),
                            this.templateArgs);
         }.bind(this));
         ['list.scss', 'object.scss'].forEach(function (fname) {
-            this.fs.copy(this.templatePath('sass/__package__/' + fname),
+            this.fs.copy(this.templatePath('sass/package/' + fname),
                         this.destinationPath('static/sass/' + this.templateArgs.packageName + '/' + fname));
         }.bind(this));
         this.fs.copy(this.templatePath('templates/crud-macros.html'), 
                         this.destinationPath('templates/crud-macros.html'));
         ['list.html', 'object.html'].forEach(function (fname) {
-            this.fs.copyTpl(this.templatePath('templates/__package__/' + fname),
+            this.fs.copyTpl(this.templatePath('templates/package/' + fname),
                         this.destinationPath('templates/' + this.templateArgs.packageName + '/' + fname),
                         this.templateArgs);
         }.bind(this));
