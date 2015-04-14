@@ -12,12 +12,12 @@ require.config({
     },
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
-        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr', "URIjs", "l20nCtx"] %}
+        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr', "URIjs", "l20n"] %}
         '{{ lib }}': '{{ urlRoot }}{{ scriptsMap[lib] }}',
         {% endfor %}
     },
     shim: {
-        {% for lib in ['semantic-ui', 'sweetalert', 'toastr'] %}
+        {% for lib in ['semantic-ui', 'sweetalert', 'toastr', 'l20n'] %}
         '{{ lib }}': {{ JSON.stringify(shimsMap[lib]) }},
         {% endfor %}
     }
