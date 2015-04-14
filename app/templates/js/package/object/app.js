@@ -1,35 +1,25 @@
-(function(root, factory) {
+define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI', 
+       'l20nCtx!/static/locales/{{locale}}/i20n', 'underscore', 'underscore.string',
+       'semantic-ui', 
+], function($, toastr, swal, crudUtils, URI, ctx, _, s) {
     'use strict';
-    // Set up Backbone appropriately for the environment. Start with AMD.
-    if (typeof define === 'function' && define.amd) {
-        define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
-               'semantic-ui'], function($, toastr, swal, crudUtils, URI) {
-            // Export global even in AMD case in case this script is loaded with
-            // others that may still expect a global Backbone.
-            factory(root, $, toastr, swal, crudUtils, URI);
-        });
-
-        // Next for Node.js or CommonJS. jQuery may not be needed as a module.
-    } else if (typeof exports !== 'undefined') {
-        var $ = require('jquery');
-        factory(root, $);
-    } else {
-        factory(root, (root.jQuery || root.Zepto || root.ender || root.$));
-    }
-}(this, function(root, $, toastr, swal, crudUtils, URI) {
-    'use strict';
-
+    _.mixin(s.exports());
     var objId = $('.ui.form :hidden[name="id"]').val(); 
 
     $('.ui.form').submit(function () {
         return !objId; // prevent submit the form when edit the object
     });
 
+    var gettext = function () {
+        ctx.getSync.apply(ctx, arguments);
+    };
     $('.remove.button').click(function () {
         swal({
             type: 'warning',
-            title: 'Warning',
-            text: 'Are you sure to remove this <%= modelName %>?',
+            title: gettext('warning_title'),
+            text: gettext('remove_question', {
+                modelName: '<%= modelName>',
+            }),
             showCancelButton: true,
             closeOnConfirm: false,
             cancelButtonText: 'Don\'t remove!',
@@ -41,16 +31,16 @@
             }).done(function () {
                 swal({
                     type: 'success',
-                    title: 'Success!',
-                    text: '<%= modelName %> "' + $('[name="name"]').val() + '" has been removed!'
+                    title: gettext('success_title'),
+                    text: _.sprintf(gettext('delete_success', { modelName: '<%= modelName %>' }), $('[name="name"]').val()),
                 }, function () {
                     root.location.href = URI(root.location.href).query(true).backref || '/<%= packageName %>/list';
                 });
             }).fail(function () {
                 swal({
                     type: 'error',
-                    title: 'Error!',
-                    text: 'Can\'t remove <%= modelName %> "' + $('[name="name"]').val() + '"',
+                    title: gettext('error_title'),
+                    text: _.sprintf(gettext('remove_failed', { modelName: '<%= modelName %>' }, $('[name="name"]').val())) ,
                 });
             }).always(function () {
                 $('.ui.form').removeClass('loading');
@@ -137,4 +127,4 @@
             return confirmationMessage;                                //Gecko + Webkit, Safari, Chrome etc.
         }
     };
-}));
+});

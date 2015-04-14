@@ -13,7 +13,7 @@
       <div class="sixteen wide column right aligned">
         <div class="ui right aligned search">
           <form class="ui icon input">
-            <input class="prompt" type="text" name='kw' placeholder="{{ _('Search %(model_name)s', modelName='<%= modelName %>') }} ..." value="{{ request.args.kw }}">
+            <input class="prompt" type="text" name='kw' placeholder="{{ _('Search %(model_name)s', model_name='<%= modelName %>') }} ..." value="{{ request.args.kw }}">
             <i class="search icon"></i>
           </form>
           <div class="results"></div>
@@ -74,7 +74,7 @@
         </table>
         {% else %}
           <div class="ui info message">
-            {{ _("-- No items --") }}
+            <span>-- {{ _(" No items ") }} --</span>
           </div>
         {% endif %}
         <div class="ui inverted dimmer mask">

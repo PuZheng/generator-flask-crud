@@ -88,6 +88,16 @@ module.exports = yeoman.generators.Base.extend({
                         this.destinationPath('templates/' + this.templateArgs.packageName + '/' + fname),
                         this.templateArgs);
         }.bind(this));
+        // js translations
+        ['en-US', 'zh-CN'].forEach(function (locale) {
+            this.fs.copy(this.templatePath('static/locales/' + locale + '/l20n'), 
+                        this.destinationPath('static/locales/' + locale + '/20n'));
+        }).bind(this);
+        // other translations
+        ['zh_CN'].forEach(function (locale) {
+            var fullPath = 'translations/' + locale + '/LC_MESSAGES/message.po';
+            this.fs.copy(this.templatePath(fullPath), this.destinationPath(fullPath));
+        });
     },
 
     projectfiles: function () {

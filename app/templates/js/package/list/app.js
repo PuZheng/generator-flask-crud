@@ -1,5 +1,5 @@
-define(['jquery', 'sweetalert', 'gettext', 
-       'semantic-ui'], function($, swal, gettext) {
+define(['jquery', 'sweetalert', 'l20nCtx!/static/locales/{{locale}}/l20n', 
+       'semantic-ui'], function($, swal, ctx) {
     'use strict';
     $('.ui.search').search({
         apiSettings: {
@@ -15,21 +15,23 @@ define(['jquery', 'sweetalert', 'gettext',
     $('th input:checkbox').click(function () {
         $('td input:checkbox').prop('checked', $(this).is(':checked'));
     });
-
+    var gettext = function () {
+        ctx.getSync.apply(ctx, arguments);
+    };
     $('button.remove.button').click(function () {
         if ($('td input:checked').length === 0) {
             swal({
                 type: 'info',
-                title: gettext('Hint'),
-                text: gettext('Please select at least one record to remove!'),
+                title: gettext('info_title'),
+                text: gettext('remove_hint'),
             });
             return false;
         } 
         swal({
             type: 'warning',
-            title: gettext('Warning!'),
-            text: gettext('Are you sure to remove the selected record(s)?'),
-            cancelButtonText: 'Do not remove！',
+            title: gettext('warning_title'),
+            text: gettext('remove_question.list'),
+            cancelButtonText: gettext('cancel_remove'),
             closeOnConfirm: false,
             showCancelButton: true,
         }, function () {
@@ -42,15 +44,15 @@ define(['jquery', 'sweetalert', 'gettext',
             }).done(function () {
                 swal({
                     type: 'success',
-                    title: gettext('Success!'),
-                    text: gettext('Selected records have been removed!'),
+                    title: gettext('success_title'),
+                    text: gettext('remove_success'),
                 }, function () {
                     window.location.reload();
                 });
             }).fail(function () {
                 swal({
                     type: 'error',
-                    title: gettext('Failed to remove selected record(s)!'),
+                    title: gettext('remove_failed.list'),
                 });
             }).always(function () {
                 $('.ui.dimmer.mask').removeClass('mask');
