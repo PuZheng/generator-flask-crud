@@ -1,16 +1,26 @@
-<warning_title "警告!">
-<remove_question {
-    *object: "您确认要删除该{{ $modelName }}?",
-    list: "您确认要删除选中的记录?"
+<warning {
+    title: "警告!",
+    remove: {
+        *object: "您确认要删除该{{ $modelName }}?",
+        list: "您确认要删除选中的记录?"
+    }
 }>
-<success_title "成功!">
-<delete_success "{{ $modelName }} \"%s\"已经被删除!">
-<error_title "出错了!">
-<remove_failed {
-    *object: "不能删除{{ $modelName }} \"%s\"!",
-    list: "无法删除选中的记录!"
+<success {
+    title: "成功!",
+    remove: {
+        *object: "{{ $modelName }} \"%s\"已经被删除!",
+        list:  "选中的记录已经被删除!",
+    }
 }>
-<info_title "提示">
-<remove_hint "请至少选择一条记录!">
+<error {
+    title: "出错了!",
+    remove: {
+        *object: "不能删除{{ $modelName }} \"%s\"!",
+        list: "无法删除选中的记录!"
+    }
+}>
+<info {
+    title: "提示",
+    remove: "请至少选择一条记录!"
+}>
 <cancel_remove "不要删除!">
-<remove_success "选中的记录已经被删除!">

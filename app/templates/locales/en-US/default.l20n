@@ -6,7 +6,7 @@
     }
 }>
 <success {
-    title: 'Success!',
+    title: "Success!",
     remove: {
         *object: "{{ $modelName }} \"%s\" has been removed!",
         list:  "Selected records have been removed!",
@@ -20,7 +20,7 @@
     }
 }>
 <info {
-    title: 'Hint!',
+    title: "Hint",
     remove: "Please select at least one record to remove!"
 }>
 <cancel_remove "Do not remove!">
