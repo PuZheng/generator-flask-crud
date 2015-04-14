@@ -12,7 +12,7 @@ require.config({
     },
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
-        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr', "URIjs"] %}
+        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr', "URIjs", "l20nCtx"] %}
         '{{ lib }}': '{{ urlRoot }}{{ scriptsMap[lib] }}',
         {% endfor %}
     },
