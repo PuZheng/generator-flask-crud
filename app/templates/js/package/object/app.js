@@ -18,7 +18,7 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
             type: 'warning',
             title: gettext('warning_title'),
             text: gettext('remove_question', {
-                modelName: '<%= modelName>',
+                modelName: '<%= modelName %>',
             }),
             showCancelButton: true,
             closeOnConfirm: false,

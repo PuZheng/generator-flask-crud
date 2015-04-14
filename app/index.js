@@ -92,12 +92,12 @@ module.exports = yeoman.generators.Base.extend({
         ['en-US', 'zh-CN'].forEach(function (locale) {
             this.fs.copy(this.templatePath('static/locales/' + locale + '/l20n'), 
                         this.destinationPath('static/locales/' + locale + '/20n'));
-        }).bind(this);
+        }.bind(this));
         // other translations
         ['zh_CN'].forEach(function (locale) {
             var fullPath = 'translations/' + locale + '/LC_MESSAGES/message.po';
             this.fs.copy(this.templatePath(fullPath), this.destinationPath(fullPath));
-        });
+        }.bind(this));
     },
 
     projectfiles: function () {
