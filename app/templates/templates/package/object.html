@@ -15,13 +15,13 @@
           <h3 class='text-muted header'>
             {% if obj %}
               <span>
-                {{ _('Edit %(model_name)s', model_name='<%= modelName %>') }}
+                {{ _('Edit %(model_name)s', model_name=_('<%= modelName %>')) }}
               </span>
               <span class='model-name'>
                 {{ obj }}
               </span>
             {% else %}
-              {{ _('Create %(model_name)s', model_name='<%= modelName %>') }}
+              {{ _('Create %(model_name)s', model_name=_('<%= modelName %>')) }}
             {% endif %}
           </h3>
         </div>

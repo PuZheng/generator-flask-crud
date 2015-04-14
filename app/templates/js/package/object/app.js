@@ -11,13 +11,13 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
     });
 
     var gettext = function () {
-        ctx.getSync.apply(ctx, arguments);
+        return ctx.getSync.apply(ctx, arguments);
     };
     $('.remove.button').click(function () {
         swal({
             type: 'warning',
-            title: gettext('warning_title'),
-            text: gettext('remove_question', {
+            title: gettext('warning.title'),
+            text: gettext('warning.remove', {
                 modelName: '<%= modelName %>',
             }),
             showCancelButton: true,
@@ -31,16 +31,16 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
             }).done(function () {
                 swal({
                     type: 'success',
-                    title: gettext('success_title'),
-                    text: _.sprintf(gettext('delete_success', { modelName: '<%= modelName %>' }), $('[name="name"]').val()),
+                    title: gettext('success.title'),
+                    text: _.sprintf(gettext('success.remove', { modelName: '<%= modelName %>' }), $('[name="name"]').val()),
                 }, function () {
                     root.location.href = URI(root.location.href).query(true).backref || '/<%= packageName %>/list';
                 });
             }).fail(function () {
                 swal({
                     type: 'error',
-                    title: gettext('error_title'),
-                    text: _.sprintf(gettext('remove_failed', { modelName: '<%= modelName %>' }, $('[name="name"]').val())) ,
+                    title: gettext('error.title'),
+                    text: _.sprintf(gettext('error.remove', { modelName: '<%= modelName %>' }, $('[name="name"]').val())) ,
                 });
             }).always(function () {
                 $('.ui.form').removeClass('loading');
