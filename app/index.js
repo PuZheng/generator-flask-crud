@@ -90,8 +90,8 @@ module.exports = yeoman.generators.Base.extend({
         }.bind(this));
         // js translations
         ['en-US', 'zh-CN'].forEach(function (locale) {
-            this.fs.copy(this.templatePath('static/locales/' + locale + '/l20n'), 
-                        this.destinationPath('static/locales/' + locale + '/20n'));
+            this.fs.copy(this.templatePath('locales/' + locale + '/default.l20n'), 
+                        this.destinationPath('static/locales/' + locale + '/default.l20n'));
         }.bind(this));
         // other translations
         ['zh_CN'].forEach(function (locale) {
