@@ -1,5 +1,5 @@
 define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI', 
-       'l20nCtx!/static/locales/{{locale}}/i20n', 'underscore', 'underscore.string',
+       'l20n-ctx!/static/locales/{{locale}}/i20n', 'underscore', 'underscore.string',
        'semantic-ui', 
 ], function($, toastr, swal, crudUtils, URI, ctx, _, s) {
     'use strict';

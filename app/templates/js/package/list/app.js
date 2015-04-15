@@ -1,4 +1,4 @@
-define(['jquery', 'sweetalert', 'l20nCtx!/static/locales/{{locale}}/l20n', 
+define(['jquery', 'sweetalert', 'l20n-ctx!/static/locales/{{locale}}/l20n', 
        'semantic-ui'], function($, swal, ctx) {
     'use strict';
     $('.ui.search').search({

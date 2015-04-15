@@ -1,3 +1,4 @@
+{% set libs = ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'l20n'] %}
 require.config({
     baseUrl: '/static/js',
     map: {
@@ -12,13 +13,15 @@ require.config({
     },
     urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
-        {% for lib in ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'l20n'] %}
+        {% for lib in libs %}
         '{{ lib }}': '{{ urlRoot }}{{ scriptsMap[lib] }}',
         {% endfor %}
     },
     shim: {
         {% for lib in ['semantic-ui', 'sweetalert', 'l20n'] %}
-        '{{ lib }}': {{ JSON.stringify(shimsMap[lib]) }},
+            {% if lib in shimsMap %}
+            '{{ lib }}': {{ JSON.stringify(shimsMap[lib]) }},
+            {% endif %}
         {% endfor %}
     }
 });
