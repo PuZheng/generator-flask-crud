@@ -1,25 +1,25 @@
-<warning {
+<warning[$type, $context] {
     title: "警告!",
     remove: {
         *object: "您确认要删除该{{ $modelName }}?",
         list: "您确认要删除选中的记录?"
     }
 }>
-<success {
+<success[$type, $context] {
     title: "成功!",
     remove: {
         *object: "{{ $modelName }} \"%s\"已经被删除!",
         list:  "选中的记录已经被删除!",
     }
 }>
-<error {
+<error[$type, $context] {
     title: "出错了!",
     remove: {
         *object: "不能删除{{ $modelName }} \"%s\"!",
         list: "无法删除选中的记录!"
     }
 }>
-<info {
+<info[$type] {
     title: "提示",
     remove: "请至少选择一条记录!"
 }>

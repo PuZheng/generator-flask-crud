@@ -1,26 +1,26 @@
-<warning {
-    title: "Warning!",
+<warning[$type, $context] {
+    *title: "Warning!",
     remove: {
         *object: "Are you sure to remove this {{ $modelName }}?",
         list: "Are you sure to remove the selected record(s)?"
     }
 }>
-<success {
-    title: "Success!",
+<success[$type, $context] {
+    *title: "Success!",
     remove: {
         *object: "{{ $modelName }} \"%s\" has been removed!",
         list:  "Selected records have been removed!",
     }
 }>
-<error {
-    title: "Error!",
+<error[$type, $context] {
+    *title: "Error!",
     remove: {
         *object: "Can't remove {{ $modelName }} \"%s\"!",
         list: "Failed to remove selected record(s)!"
     }
 }>
-<info {
-    title: "Hint",
+<info[$type] {
+    *title: "Hint",
     remove: "Please select at least one record to remove!"
 }>
 <cancel_remove "Do not remove!">
