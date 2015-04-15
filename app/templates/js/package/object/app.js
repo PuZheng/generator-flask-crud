@@ -16,9 +16,11 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
     $('.remove.button').click(function () {
         swal({
             type: 'warning',
-            title: gettext('warning.title'),
-            text: gettext('warning.remove', {
+            title: gettext('warning', {type: 'title'}),
+            text: gettext('warning',{
                 modelName: '<%= modelName %>',
+                type: 'remove',
+                context: 'object',
             }),
             showCancelButton: true,
             closeOnConfirm: false,
@@ -31,16 +33,30 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
             }).done(function () {
                 swal({
                     type: 'success',
-                    title: gettext('success.title'),
-                    text: _.sprintf(gettext('success.remove', { modelName: '<%= modelName %>' }), $('[name="name"]').val()),
+                    title: gettext('success', {
+                        context: 'object',
+                        type: 'title'
+                    }),
+                    text: _.sprintf(gettext('success', { 
+                        modelName: '<%= modelName %>', 
+                        context: 'object',
+                        type: 'remove' 
+                    }), $('[name="name"]').val()),
                 }, function () {
                     root.location.href = URI(root.location.href).query(true).backref || '/<%= packageName %>/list';
                 });
             }).fail(function () {
                 swal({
                     type: 'error',
-                    title: gettext('error.title'),
-                    text: _.sprintf(gettext('error.remove', { modelName: '<%= modelName %>' }, $('[name="name"]').val())) ,
+                    title: gettext('error', {
+                        context: 'object',
+                        type: 'title'
+                    }),
+                    text: _.sprintf(gettext('error', { 
+                        modelName: '<%= modelName %>', 
+                        context: 'object',
+                        type: 'remove' 
+                    }, $('[name="name"]').val())) ,
                 });
             }).always(function () {
                 $('.ui.form').removeClass('loading');

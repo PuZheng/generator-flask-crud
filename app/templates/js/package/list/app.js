@@ -22,15 +22,15 @@ define(['jquery', 'sweetalert', 'l20n-ctx!/static/locales/{{locale}}/l20n',
         if ($('td input:checked').length === 0) {
             swal({
                 type: 'info',
-                title: gettext('info.title'),
-                text: gettext('info.remove'),
+                title: gettext('info', {type: 'title'}),
+                text: gettext('info', {type: 'remove'}),
             });
             return false;
         } 
         swal({
             type: 'warning',
-            title: gettext('warning.title'),
-            text: gettext('warning.remove.list'),
+            title: gettext('warning', {type: 'title'}),
+            text: gettext('warning', {type: 'title', context: 'list'}),
             cancelButtonText: gettext('cancel_remove'),
             closeOnConfirm: false,
             showCancelButton: true,
@@ -44,15 +44,15 @@ define(['jquery', 'sweetalert', 'l20n-ctx!/static/locales/{{locale}}/l20n',
             }).done(function () {
                 swal({
                     type: 'success',
-                    title: gettext('success.title'),
-                    text: gettext('success.remove.list'),
+                    title: gettext('success', {type: 'title'}),
+                    text: gettext('success', {type: 'remove', context: 'list'}),
                 }, function () {
                     window.location.reload();
                 });
             }).fail(function () {
                 swal({
                     type: 'error',
-                    title: gettext('error.remove.list'),
+                    title: gettext('error', {type: 'remove', context:'list'}),
                 });
             }).always(function () {
                 $('.ui.dimmer.mask').removeClass('mask');
