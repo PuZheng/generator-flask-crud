@@ -1,16 +1,26 @@
-<warning_title "Warning!">
-<remove_question {
-    *object: "Are you sure to remove this {{ $modelName }}?",
-    list: "Are you sure to remove the selected record(s)?"
+<warning {
+    title: "Warning!",
+    remove: {
+        *object: "Are you sure to remove this {{ $modelName }}?",
+        list: "Are you sure to remove the selected record(s)?"
+    }
 }>
-<success_title "Success!">
-<delete_success "{{ $modelName }} \"%s\" has been removed!">
-<error_title "Error!">
-<remove_failed {
-    *object: "Can't remove {{ $modelName }} \"%s\"!",
-    list: "Failed to remove selected record(s)!"
+<success {
+    title: "Success!",
+    remove: {
+        *object: "{{ $modelName }} \"%s\" has been removed!",
+        list:  "Selected records have been removed!",
+    }
 }>
-<info_title "Hint">
-<remove_hint "Please select at least one record to remove!">
+<error {
+    title: "Error!",
+    remove: {
+        *object: "Can't remove {{ $modelName }} \"%s\"!",
+        list: "Failed to remove selected record(s)!"
+    }
+}>
+<info {
+    title: "Hint",
+    remove: "Please select at least one record to remove!"
+}>
 <cancel_remove "Do not remove!">
-<remove_success "Selected records have been removed!">

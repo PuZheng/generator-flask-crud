@@ -94,8 +94,8 @@ module.exports = yeoman.generators.Base.extend({
                         this.destinationPath('static/locales/' + locale + '/default.l20n'));
         }.bind(this));
         // other translations
-        ['zh_CN'].forEach(function (locale) {
-            var fullPath = 'translations/' + locale + '/LC_MESSAGES/message.po';
+        ['zh_Hans_CN'].forEach(function (locale) {
+            var fullPath = 'translations/' + locale + '/LC_MESSAGES/messages.po';
             this.fs.copy(this.templatePath(fullPath), this.destinationPath(fullPath));
         }.bind(this));
     },
