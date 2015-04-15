@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 from datetime import datetime, date
+from sqlalchemy import or_
 import types
 from flask import (Blueprint, flash, render_template, redirect, request,
                    jsonify, url_for)
@@ -18,6 +19,10 @@ bp = Blueprint('<%= packageName %>', __name__, static_folder='static',
 
 ModelForm = model_form_factory(Form)
 
+class _Form(ModelForm):
+
+    class Meta:
+        model = <%= modelName %>
 
 class <%= modelName %>ModelView(object):
 
@@ -39,10 +44,6 @@ def object_view(id_=None):
 
     obj = <%= modelName %>.query.get_or_404(id_) if id_ else None
 
-    class _Form(ModelForm):
-
-        class Meta:
-            model = <%= modelName %>
     form = _Form(obj=obj)
     if form.validate_on_submit():
         # if create a new object, return to object list
@@ -139,7 +140,7 @@ def object_json(id_):
     form = _Form(csrf_enabled=False)
     if request.method == 'POST':
         if form.validate():
-            obj = Image()
+            obj = <%= modelName %>()
             form.populate_obj(obj)
             return jsonify(do_commit(db, obj).__json__())
         else:
