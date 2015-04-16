@@ -64,6 +64,33 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
         });
     });
 
+    var doUpdate = function (data, $input) {
+        $('.ui.form').addClass('loading');
+
+        data[this.attr('name')] = this.val();
+        $.ajax({
+            url: objId + '.json',
+            type: 'PUT',
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function () {
+            toastr.success('updated!', '', {
+                positionClass: 'toast-bottom-center',
+                timeOut: 1000,
+            });
+            $input.attr('data-committed-value', $input.val());
+        }).fail(function (data) {
+            data.responseJSON && crudUtils.showFormErrors(data.responseJSON.errors, $('.ui.form'));
+            toastr.error('update failed!', '', {
+                positionClass: 'toast-bottom-center',
+                timeOut: 1000,
+            });
+        }).always(function () {
+            $('.ui.form').removeClass('loading');
+        });
+    };
+
     $('.ui.form').form({
         // you should place all the fields here, including the optional one 
         // this is due to a bug in semantic-ui, the fields placed here will
@@ -96,33 +123,9 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
             if (!objId || (this.val() === this.attr('data-committed-value'))) {
                 return; // only commit the change when EDIT the object, and this field is changed
             }
-            $('.ui.form').addClass('loading');
-
             var data = {};
-            var $input = this;
             data[this.attr('name')] = this.val();
-            $.ajax({
-                url: objId + '.json',
-                type: 'PUT',
-                data: JSON.stringify(data),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-            }).done(function () {
-                toastr.success('updated!', '', {
-                    positionClass: 'toast-bottom-center',
-                    timeOut: 1000,
-                });
-                $input.attr('data-committed-value', $input.val());
-            }).fail(function (data) {
-                data.responseJSON && crudUtils.showFormErrors(data.responseJSON.errors, $('.ui.form'));
-                toastr.error('update failed!', '', {
-                    positionClass: 'toast-bottom-center',
-                    timeOut: 1000,
-                });
-            }).always(function () {
-                $('.ui.form').removeClass('loading');
-            });
-
+            doUpdate(data, this);
         },
     });
     $('.ui.form input').keypress(function (e) {
