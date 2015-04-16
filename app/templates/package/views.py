@@ -159,7 +159,7 @@ def object_json(id_):
                 v = datetime.strptime(v, '%Y-%m-%d')
             setattr(obj, k, v)
         do_commit(db, obj)
-    else:  # DELETE
+    elif request.method == "DELETE":
         do_commit(db, obj, action='delete')
     return ret
 
