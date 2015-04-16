@@ -10,8 +10,9 @@ from flask.ext.babel import _
 from wtforms_alchemy import model_form_factory
 from collections import namedtuple
 
-from <%= modelsModule %> import <%= modelName %>
-from <%= doCommitModule %> import do_commit
+from <%= projectPackage %>.models import <%= modelName %>
+from <%= projectPackage %>.utils import do_commit
+from <%= projectPackage %>.database import db
 
 
 bp = Blueprint('<%= packageName %>', __name__, static_folder='static',
@@ -28,11 +29,11 @@ class <%= modelName %>ModelView(object):
 
     instance = None
 
-    def __init__(self, app, db, page_size=None):
+    def __init__(self, app, page_size=None):
         if not <%= modelName %>ModelView.instance:
             <%= modelName %>ModelView.instance = namedtuple(
-                '<%= modelName %>ModelView', 'app db page_size'
-            )(app, db, page_size or app.config.get('PAGE_SIZE', 16))
+                '<%= modelName %>ModelView', 'app page_size'
+            )(app, page_size or app.config.get('PAGE_SIZE', 16))
 
         app.register_blueprint(bp, url_prefix='/<%= packageName %>')
 
@@ -51,7 +52,7 @@ def object_view(id_=None):
                                             or url_for('.list_view'))
         obj = obj or <%= modelName %>()
         form.populate_obj(obj)
-        do_commit(<%= modelName %>ModelView.instance.db, obj)
+        do_commit(db, obj)
 
         flash(_(u'%(model_name)s %(model)s was %(method)s successfully',
                 model_name='<%=modelName %>', model=unicode(obj),
@@ -102,7 +103,6 @@ def list_view():
 @bp.route('/list.json', methods=['GET', 'DELETE', 'PUT'])
 @login_required
 def list_json():
-    db = <%= modelName %>ModelView.instance.db
     if request.method == 'DELETE':
         do_commit(db, filter(lambda x: x, [
             <%= modelName %>.query.get(id_) for id_ in
@@ -134,8 +134,6 @@ def list_json():
 @bp.route('/object.json', methods=['POST'])
 @login_required
 def object_json(id_):
-
-    db = <%= modelName %>ModelView.instance.db
 
     form = _Form(csrf_enabled=False)
     if request.method == 'POST':

@@ -23,16 +23,12 @@ module.exports = yeoman.generators.Base.extend({
         message: 'your package name',
     }, {
         type: 'input',
-        name: 'modelsModule',
-        message: 'the module defining models',
+        name: 'projectPackage',
+        message: 'your project package name',
     }, {
         type: 'input',
         name: 'modelName',
         message: 'your model\'s name',
-    }, {
-        type: 'input',
-        name: 'doCommitModule',
-        message: 'the module defining function do_commit',
     }, {
         type: 'confirm',
         name: 'searchable',
@@ -50,8 +46,7 @@ module.exports = yeoman.generators.Base.extend({
 
     this.prompt(prompts, function (props) {
         this.templateArgs = {};
-        this.templateArgs.modelsModule = props.modelsModule;
-        this.templateArgs.doCommitModule = props.doCommitModule;
+        this.templateArgs.projectPackage = props.projectPackage;
         this.templateArgs.packageName = props.packageName;
         this.templateArgs.modelName = props.modelName;
         this.templateArgs.searchable = props.searchable;

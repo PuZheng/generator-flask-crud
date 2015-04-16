@@ -6,7 +6,7 @@ you have generate a crud implementation skeleton, to have it really work, please
     * in your "basemain.py", add following codes:
 
         from <%= packageName %> import <%= modelName %>ModelView
-        <%= modelName %>ModelView(app, db)
+        <%= modelName %>ModelView(app)
 
     * in your "gulpfile.js", add following codes:
 
@@ -18,3 +18,5 @@ you have generate a crud implementation skeleton, to have it really work, please
 
         - toastr(https://github.com/CodeSeven/toastr/blob/master/toastr.js)
         - sweetalert(https://github.com/t4t5/sweetalert)
+        - undercore
+        - underscore.string
