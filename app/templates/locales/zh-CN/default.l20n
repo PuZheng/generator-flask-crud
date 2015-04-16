@@ -10,14 +10,16 @@
     remove: {
         *object: "{{ $modelName }} \"%s\"已经被删除!",
         list:  "选中的记录已经被删除!",
-    }
+    },
+    update: "已更新!"
 }>
 <error[$type, $context] {
     title: "出错了!",
     remove: {
         *object: "不能删除{{ $modelName }} \"%s\"!",
         list: "无法删除选中的记录!"
-    }
+    }, 
+    update: "更新失败!"
 }>
 <info[$type] {
     title: "提示",

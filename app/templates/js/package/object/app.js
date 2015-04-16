@@ -67,7 +67,6 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
     var doUpdate = function (data, $input) {
         $('.ui.form').addClass('loading');
 
-        data[this.attr('name')] = this.val();
         $.ajax({
             url: objId + '.json',
             type: 'PUT',
@@ -75,14 +74,18 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
         }).done(function () {
-            toastr.success('updated!', '', {
+            toastr.success(gettext('success', {
+                type: 'update',
+            }), '', {
                 positionClass: 'toast-bottom-center',
                 timeOut: 1000,
             });
-            $input.attr('data-committed-value', $input.val());
+            $input && $input.attr('data-committed-value', $input.val());
         }).fail(function (data) {
             data.responseJSON && crudUtils.showFormErrors(data.responseJSON.errors, $('.ui.form'));
-            toastr.error('update failed!', '', {
+            toastr.error(gettext('error', {
+                type: 'update'
+            }), '', {
                 positionClass: 'toast-bottom-center',
                 timeOut: 1000,
             });
@@ -120,7 +123,7 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
             }
         },
         onValid: function () {
-            if (!objId || (this.val() === this.attr('data-committed-value'))) {
+            if (!objId || this.attr('name') === undefined || (this.val() === this.attr('data-committed-value'))) {
                 return; // only commit the change when EDIT the object, and this field is changed
             }
             var data = {};
