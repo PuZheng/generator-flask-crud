@@ -1,4 +1,4 @@
-{% set libs = ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr', "URIjs", "l20n"] %}
+{% set libs = ['css', 'text', 'jquery', 'semantic-ui', 'sweetalert', 'toastr', "URIjs", "l20n", "underscore", "underscore.string"] %}
 require.config({
     baseUrl: '/static/js',
     map: {
