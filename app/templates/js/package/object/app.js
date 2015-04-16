@@ -43,7 +43,7 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
                         type: 'remove' 
                     }), $('[name="name"]').val()),
                 }, function () {
-                    root.location.href = URI(root.location.href).query(true).backref || '/<%= packageName %>/list';
+                    window.location.href = URI(window.location.href).query(true).backref || '/<%= packageName %>/list';
                 });
             }).fail(function () {
                 swal({
