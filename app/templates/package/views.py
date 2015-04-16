@@ -130,7 +130,7 @@ def list_json():
     })
 
 
-@bp.route('/object/<int:id_>.json', methods=['PUT', 'DELETE'])
+@bp.route('/object/<int:id_>.json', methods=['GET', 'PUT', 'DELETE'])
 @bp.route('/object.json', methods=['POST'])
 @login_required
 def object_json(id_):
