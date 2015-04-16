@@ -30,9 +30,6 @@
 
           {% if obj %}
             <input type="hidden" name="id" value="{{obj.id}}">
-          {% else %}
-            <input type="hidden" name="image_list">
-            <input type="hidden" name="cover_id">
           {% endif %}
 
           <div class="field {% if form.errors.foo %}error{% endif %}">
