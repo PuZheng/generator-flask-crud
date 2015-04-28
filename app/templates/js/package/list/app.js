@@ -35,7 +35,7 @@ define(['jquery', 'sweetalert', 'l20n-ctx!/static/locales/{{locale}}/l20n',
             closeOnConfirm: false,
             showCancelButton: true,
         }, function () {
-            $('.ui.dimmer.mask').addClass('mask');
+            $('.ui.dimmer').addClass('active').find('.loader').text(gettext('wait_for_removing') + '...');
             $.ajax({
                 url: '/<%= packageName %>/list.json?ids=' + $('td input:checked').map(function () {
                     return $(this).attr('data-id');
@@ -55,7 +55,7 @@ define(['jquery', 'sweetalert', 'l20n-ctx!/static/locales/{{locale}}/l20n',
                     title: gettext('error', {type: 'remove', context:'list'}),
                 });
             }).always(function () {
-                $('.ui.dimmer.mask').removeClass('mask');
+                $('.ui.dimmer').removeClass('active');
             });
         });
 

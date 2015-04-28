@@ -26,3 +26,4 @@
     remove: "Please select at least one record to remove!"
 }>
 <cancel_remove "Do not remove!">
+<wait_for_removing "Removing, wait for a second">

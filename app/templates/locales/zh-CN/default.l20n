@@ -26,3 +26,4 @@
     remove: "请至少选择一条记录!"
 }>
 <cancel_remove "不要删除!">
+<wait_for_removing "正在删除， 请稍候...">
