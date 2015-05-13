@@ -52,7 +52,7 @@
           {% else %}
             <button type='submit' class="ui primary submit button">{{ _('Create') }}</button>
           {% endif %}
-          <a class="ui button" href="{{ request.args.next or url_for('<%= packageName %>.list_view') }}">{{ _('Back') }}</a>
+          <a class="ui button" href="{{ request.args.backref or url_for('<%= packageName %>.list_view') }}">{{ _('Back') }}</a>
         </form>
       </div>
     </div>
