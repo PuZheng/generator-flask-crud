@@ -90,3 +90,16 @@
 </div>
 {%- endmacro %}
 
+{% macro field_error(error_list) -%}
+  {% if error_list %}
+    <div class="ui red pointing prompt label transition visible">
+      <ul class="ui list">
+        {% for error in error_list %}
+          <li class="item">{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+{%- endmacro %}
+
+

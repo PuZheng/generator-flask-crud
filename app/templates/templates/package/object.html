@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/' + request.blueprint + '/object.css') }}">
 {% endblock %}
 
-{% from "crud-macros.html" import errors %}
+{% from "crud-macros.html" import errors, field_error %}
 
 
 {% block main %}
@@ -35,15 +35,7 @@
           <div class="field {% if form.errors.foo %}error{% endif %}">
             <label for="input-foo">Foo</label>
             <input type="text" name='foo' id="input-foo" placeholder="input foo here..." value="{{ form.data.foo or ''}}" {% if not obj %}autofocus{% endif %} data-committed-value="{{ form.data.foo }}">
-            {% if form.errors.foo %}
-              <div class="ui red pointing prompt label transition visible">
-                <ul class="ui list">
-                  {% for error in form.errors.foo %}
-                    <li class="item">{{ error }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endif %}
+            {{ field_error(form.errors.foo) }}
           </div>
           <div class="ui divider"></div>
 
