@@ -30,7 +30,7 @@ define(['jquery', 'sweetalert', 'l20n-ctx!/static/locales/{{locale}}/l20n',
         swal({
             type: 'warning',
             title: gettext('warning', {type: 'title'}),
-            text: gettext('warning', {type: 'title', context: 'list'}),
+            text: gettext('warning', {type: 'remove', context: 'list'}),
             cancelButtonText: gettext('cancel_remove'),
             closeOnConfirm: false,
             showCancelButton: true,
