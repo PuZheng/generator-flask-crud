@@ -6,7 +6,9 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
     _.mixin(s.exports());
     var objId = $('.ui.form :hidden[name="id"]').val(); 
 
+    var submitting = false;
     $('.ui.form').submit(function () {
+        submitting = true;
         return !objId; // prevent submit the form when edit the object
     });
 
@@ -141,8 +143,9 @@ define(['jquery', 'toastr', 'sweetalert', 'crud-utils', 'URIjs/URI',
         // add real implementation
         return true;
     }
+
     window.onbeforeunload = function (e) {
-        if (!objId && dirty()) {
+        if (!objId && dirty() && !submitting) {
             var confirmationMessage = 'Unsaved changes will be discarded if you leave this page';
 
             (e || window.event).returnValue = confirmationMessage;     //Gecko + IE
