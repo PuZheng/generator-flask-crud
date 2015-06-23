@@ -57,7 +57,7 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function () {
-        ['__init__.py', 'views.py'].forEach(function (fname) {
+        ['__init__.py', 'views.py', 'libs.yml'].forEach(function (fname) {
             this.fs.copyTpl(this.templatePath('package/' + fname),
                            this.destinationPath(this.templateArgs.packageName + '/' + fname), 
                            this.templateArgs);
