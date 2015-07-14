@@ -8,12 +8,6 @@ you have generate a crud implementation skeleton, to have it really work, please
         from <%= packageName %> import <%= modelName %>ModelView
         <%= modelName %>ModelView(app)
 
-    * in your "gulpfile.js", add following codes:
-
-        gulp.task("render", function () {
-                require('<%= packageName %>/rendor')(scriptsMap, shimsMap, urlRoot);
-                });
-
     * make sure the following packages are installed:
 
         - toastr(https://github.com/CodeSeven/toastr/blob/master/toastr.js)

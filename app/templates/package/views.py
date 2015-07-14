@@ -78,12 +78,12 @@ def list_view():
     kw = request.args.get('kw')
     if kw:
         <% if (searchableFields.length > 1) { %>
-            q = q.filter(or_(
-            <%= searchableFields.map(function (field) {
-                return modelName + '.' + field + '.like(u\'%%s%%\' % kw)';
-            }).join(', ') %>))
+        q = q.filter(or_(
+        <%= searchableFields.map(function (field) {
+            return modelName + '.' + field + '.like(u\'%%s%%\' % kw)';
+        }).join(', ') %>))
         <% } else { %>
-            q = q.filter(<%= modelName %>.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))
+        q = q.filter(<%= modelName %>.<%= searchableFields[0] %>.like(u'%%%s%%' % kw))
         <% } %>
     <% } %>
     if order_by:

@@ -57,9 +57,9 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function () {
-        ['__init__.py', 'views.py', 'libs.yml'].forEach(function (fname) {
+        ['__init__.py', 'views.py'].forEach(function (fname) {
             this.fs.copyTpl(this.templatePath('package/' + fname),
-                           this.destinationPath(this.templateArgs.packageName + '/' + fname), 
+                           this.destinationPath(this.templateArgs.packageName + '/' + fname),
                            this.templateArgs);
         }.bind(this));
         this.fs.copy(this.templatePath('js/crud-utils.js'),
@@ -73,7 +73,7 @@ module.exports = yeoman.generators.Base.extend({
             this.fs.copy(this.templatePath('sass/package/' + fname),
                         this.destinationPath('static/sass/' + this.templateArgs.packageName + '/' + fname));
         }.bind(this));
-        this.fs.copy(this.templatePath('templates/crud-macros.html'), 
+        this.fs.copy(this.templatePath('templates/crud-macros.html'),
                         this.destinationPath('templates/crud-macros.html'));
         ['list.html', 'object.html'].forEach(function (fname) {
             this.fs.copyTpl(this.templatePath('templates/package/' + fname),
@@ -82,7 +82,7 @@ module.exports = yeoman.generators.Base.extend({
         }.bind(this));
         // js translations
         ['en-US', 'zh-CN'].forEach(function (locale) {
-            this.fs.copy(this.templatePath('locales/' + locale + '/default.l20n'), 
+            this.fs.copy(this.templatePath('locales/' + locale + '/default.l20n'),
                         this.destinationPath('static/locales/' + locale + '/default.l20n'));
         }.bind(this));
         // other translations
